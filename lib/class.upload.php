@@ -1,14 +1,10 @@
 <?php
 /**
-* Загрузка файлов на серв
-* @version	0.2.13 (16:47 24.05.2012)
-* @package	Zoker
-* @author	Denis Petrov
+* Загрузка файлов
 */
 class ClassUpload
 {
 	/**
-	 * Ïðîâåðÿåò ðàñøèðåíèå ôàéëà. Äëÿ ãðàôè÷åñêèõ ôàéëîâ
 	 * @param string $name - èìÿ ôàéëà (âêîëþ÷àÿ ðàñøèðåíèå)
 	 * @return FALSE â ñëó÷àå íåäîïóñòèìîãî ðàñøèðåíèÿ ôàéëà. Â ïðîòèâíîì ñëó÷àå - ðàñøèðåíèå ôàéëà
 	 */
@@ -37,7 +33,6 @@ class ClassUpload
 
 
 	/**
-	 * Óñòàðåâøàÿ ôóíêöèÿ. Äëÿ ñîâìåñòèìîñòè ñ âåðñèåé 0.1.83 è ðàíåå
 	 */
 	static function CheckWordExtension($name)
 	{
@@ -45,7 +40,6 @@ class ClassUpload
 	}
 
 	/**
-	 * Óñòàðåâøàÿ ôóíêöèÿ. Äëÿ ñîâìåñòèìîñòè ñ âåðñèåé 0.1.83 è ðàíåå
 	 */
 	static function ImageFromUrl($img_link, $need_x = 0, $need_y = 0, $folder = 'default', $style = 'strict', $name = 0, $options = array() )
     {
@@ -326,7 +320,6 @@ class ClassUpload
 
 
 	/**
-	 * Çàãðóæàåò ïðèêðåïë¸ííûé ê ôîðìå ôàéë
 	 * @param object $file - ññûëêà íà ôàéë.
 	 * @param string $folder - ïàïêà, â êîòîðóþ áóäåò îñóùåñòâëåíà çàãðóçêà ôàéëà. Îáðàçîâàíèå ïîëíîãî ïóòè: ROOT_PATH."/uploads/{$folder}/";
 	 * @param string $name - èìÿ ôàéëà. Åñëè íå óêàçàòü - èìÿ ôàéëà ñãåíåðèðóåòñÿ ïî timestamp
@@ -337,7 +330,7 @@ class ClassUpload
 	{
 		if ((($file['size']/1024) > $max_weight) && $max_weight !=0)
         {
-			return ''; ## åñëè âåñ ôàéëà áîëüøå äîïóñòèìîãî (kb)
+			return '';
         }
 
 		$name_arr  = explode(".", $file['name']);
@@ -348,7 +341,7 @@ class ClassUpload
 
 		if (!self::CheckExtension($file['name'], 'text'))
         {
-			return ''; ## åñëè ðàñøèðåíèå ôàéëà íåäîïóñòèìîå
+			return '';
         }
 
 		$target_path = "{$folder}/{$name}";

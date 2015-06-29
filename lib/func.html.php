@@ -1,9 +1,4 @@
 <?php
-/**
-* @version  0.1.4 (16:14 02.04.2012)
-* @package  Zoker
-* @author   Denis Petrov
-*/
 
 /**
  *  Выводит сообщение об ошибке
