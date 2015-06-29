@@ -1,0 +1,26 @@
+{
+	"icon":"fa-file-o",
+	"title":"Страницы",
+	"actions":[
+		{
+			"href": "/",
+			"title": "Все страницы",
+			"access": []
+		},
+		{
+			"href": "/cats/",
+			"title": "Категории страниц",
+			"access": []
+		},
+		{
+			"href": "/edit/",
+			"title": "Добавить страницу",
+			"access": []
+		},
+		{
+			"href": "/trashbin/",
+			"title": "Корзина",
+			"access": []
+		}
+	]
+}

@@ -1,0 +1,62 @@
+<script type="text/javascript" src="{$gDomain}/components/{$component_name}/view/bb.js"></script>
+<script type="text/javascript" src="{$gDomain}/components/{$component_name}/view/poll.js"></script>
+<script src="{$gDomain}/lib/js/jquery-ui-1.8.14.js" type="text/javascript"></script>
+<link rel="stylesheet" href="{$gDomain}/lib/js/jquery-ui-1.8.14.css" type="text/css" >
+
+<h1>Редактирование топика</h1>
+<h2>{$subj}</h2>
+<form action='{$gDomain}/{$component_name}/etopic/' method='post'>
+<input type='hidden' name='t_id' value='{$t_id}'>
+	<table cellpadding='10' cellspacing='0' border='0' width='100%'>
+		<tr>
+			<td><b>Заголовок:</b></td>
+			<td><input type='text' name='subj' value='{$topic.subj}' style='width: 550px;'> </td>
+		</tr>
+		{if="guser::_isAdmin() && !$check && (!$topic.subj || $topic.poll)"}
+		<tr id="poll_menu">
+			<td><b><span class="poll_toggle">Опрос</b></span></td>
+			<td>
+			 <div >			
+			  <b>Текст опроса:</b><br/>
+			  	<input type='text' name='poll' id='poll' value='{$topic.poll}' style='width: 550px;'><br/>
+				<input type='checkbox' name='poll_many' value='true' {if="$topic.poll_many == 1"}checked{/if}>Несколько вариантов ответа<br/><br/>
+			   <b>Когда показывать результаты опроса?</b><br/>
+			   <input type="radio" name="poll_show" value="1" {if="$topic.poll_show == 1"}checked{/if}> всегда<br/>
+			   <input type="radio" name="poll_show" value="2" {if="$topic.poll_show == 2"}checked{/if}> после голосования<br/>
+			   <input type="radio" name="poll_show" value="3" {if="$topic.poll_show == 3"}checked{/if}> после закрытия опроса<br/><br/>
+			 <b>Дата завершения опроса:</b><br/>
+			 <i>Дата:</i> <input name='poll_date' type='text'   value='{$date}'  id="datepicker" style='width: 100px;'>
+			 <i>Время:</i> <input name='poll_time' type='text' value='{$time}' style='width: 60px;'><br/><br/>
+			 <b>Варианты ответа:</b><br/>
+			  <div id="answers">
+			    {if="$answers"}
+					{loop="answers"}
+						<input type='text' name='answer[]' style='width: 280px;' value='{$value.answer}'><br />
+					{/loop}
+				{else}
+					<input type='text' name='answer[]' style='width: 280px;'><br />
+					<input type='text' name='answer[]' style='width: 280px;'><br />
+					<input type='text' name='answer[]' style='width: 280px;'><br />
+					<input type='text' name='answer[]' style='width: 280px;'><br />
+					<input type='text' name='answer[]' style='width: 280px;'><br />
+				{/if}
+					
+			  </div>
+			  <input id="add_answer" type='button' value='Добавить вариант'>
+			 </div>
+			 </div>
+		   </td>
+		</tr>
+		{/if}
+		{if="guser::_hasAccess($component_name, 'move')"}
+			<tr>
+				<td><b>Категория форума:</b></td>
+				<td>{$cat_select}</td>			
+			</tr>
+		{/if}
+		<tr>
+		 <td></td>
+		 <td><input type='submit' value='Редактировать тему'></td>
+		</tr>
+	</table>
+</form>

@@ -1,0 +1,57 @@
+<div class="page-header">
+	<h1>{$LANG.new_list_title}</h1>
+</div>
+<div class="page-header-menu">
+	<a class="btn btn-flat btn-sm btn-labeled btn-success" id='absolutelink-add' href="/admin/{$component_name}/add/">{$LANG.add_new}</a>
+</div>
+<table class="table table-bordered table-primary">
+	<tr>
+		<th width='60' align='center'>#</th>
+		<th width='60'><i class="icon-black icon-eye-open" title="{$LANG.published}"></i></th>
+		<th width='60'></th>
+		<th>{$LANG.title}</th>
+		<th>{$LANG.date}</th>
+		{if="$config.multi_files"}
+			<th>{$LANG.photos}</th>
+		{/if}
+		{if="$config.enable_cats"}
+			<th>{$LANG.cats_th}</th>
+		{/if}
+		<th>Автор</th>
+		<th width="110"></th>
+	</tr>
+	{loop name="news"}
+	<tr class={if="$counter%2==0"}'graytr'{else}'lightgraytr'{/if}>
+		<td>{$value.id}</td>
+		<td><a href="{$gDomain}/admin/news/publish/?id={$value.id}" title="Опубликовать/снять с публикации" class="fa {function="get_publish_style($value.published)"}"></a></td>
+		<td>
+			<a class="fa fa-share-square-o" href='{$gDomain}/news/{$value.alias}/' title='Посмотреть на сайте' target="_blank"></a>
+		</td>
+		<td>
+			{if="guser::_hasAccess($component_name, 'edit_all') || (guser::_hasAccess($component_name, 'edit_my') && $value.published==0)"}
+				<a href='{$gDomain}/admin/{$component_name}/edit/?id={$value.id}' title='{$LANG.edit}'>{$value.title}</a>
+			{else}
+				{$value.title}
+			{/if}
+		</td>
+		<td>{function="date('d.m.Y H:i', strtotime($value['dtime']))"}</td>
+		{if="$config.multi_files"}
+			<td align='center'><a href='{$gDomain}/{$component_name}/photo_list/?id={$value.id}' title='{$LANG.more_attaches}'>{$value.ph_num}</a></td>
+		{/if}
+		{if="$config.enable_cats"}
+			<td align='center'>{if="isset($cats[$value.cat_id]['cat_title'])"}{$cats[$value.cat_id]['cat_title']}{else}-{/if}</td>
+		{/if}
+		<td><a href='{$gDomain}/profile/{$value.login}/' target="_blank">{$value.login}</a></td>
+		<td>
+			{if="guser::_hasAccess($component_name, 'edit_all') || (guser::_hasAccess($component_name, 'edit_my') && $value.published==0)"}
+				<a class='fa fa-edit' href='{$gDomain}/admin/{$component_name}/edit/?id={$value.id}' title='{$LANG.edit}'></a>
+			{/if}
+			{if="guser::_hasAccess($component_name, 'delete')"}
+				<a class="fa fa-remove" href='{$gDomain}/admin/{$component_name}/delete/?id={$value.id}' title='{$LANG.delete}'></a>
+			{/if}
+		</td>
+	</tr>
+	{/loop}
+</table>
+<br />
+{$pagination}

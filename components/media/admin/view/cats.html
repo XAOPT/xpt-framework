@@ -1,0 +1,27 @@
+<div class="page-header">
+	<h1>Категории страниц</h1>
+</div>
+
+<div class="page-header-menu">
+	<a href="/admin/{$component_name}/catedit/" class="btn btn-flat btn-sm btn-labeled btn-success" id="add-project-button"><span class="btn-label icon fa fa-plus"></span>Добавить новую категорию</a>
+</div>
+
+<table class="table table-bordered table-primary">
+	<tr>
+		<th>#</th>
+		<th>Название категории</th>
+		<th>Описание</th>
+		<th width="120">&nbsp;</th>
+	</tr>
+	{loop name="cats"}
+	<tr class={if="$counter%2==0"}'graytr'{else}'lightgraytr'{/if}>
+		<td>{$value.id}</td>
+		<td><a href='/admin/{$component_name}/list/?id={$value.id}'>{$value.cat_title}</a></td>
+		<td>{$value.descr}</td>
+		<td>
+			<a class='fa fa-edit' href='/admin/{$component_name}/catedit/?id={$value.id}' title='Редактировать'></a>
+			<a class='fa fa-remove' href='/admin/{$component_name}/catdel/?id={$value.id}' title='Удалить'></a>
+		</td>
+	</tr>
+	{/loop}
+</table>

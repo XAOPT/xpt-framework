@@ -1,0 +1,53 @@
+
+	<h1>Авторизация на портале</h1>
+	<div id='reg-right'>
+		<span class='bold'>Не забывайте, что авторизовавшись вы:</span>
+			<ul class='reg'>
+				<li>всегда будете в курсе нового видео или онлайн стрима доты;</li>
+				<li>сможете комментировать и оценивать видео, ставить лайки пользователям за полезные комментарии и общаться в удобном чате стрима;</li>
+				<li>получите возможность выставлять свой собственный стрим и любое дота видео на сайт.</li>
+			</ul>
+	</div>
+
+    <div id='regblock'>   
+		{if="isset($wrong_pass)"}
+			<span class='bold red'>Неверная пара логин-пароль. <br />Wrong password or login.</span>
+		{/if}
+		{if="isset($mail)"}
+			<span class='bold red'>Письмо успешно отправлено на ваш e-mail. Прочтите его и следуйте инструкциям. <br />We send message to your e-mail.</span>
+		{/if}
+		<form  method="post" action="{$gDomain}/" id="login-enter-form">
+			<input type='hidden' name='ref' value='{isset="$ref"}'>
+			<input type='hidden' name='do' value='reg'>
+			<div id="save_msg"></div>
+			<div id="save_error_msg"></div>            
+            <br>
+            <div>
+            	<div class='inputall bigpadding'>
+                    <div class='inputdescr'>Login:</div> 
+					<div class='inputdiv'>
+						<div><input type="text" maxlength="20" id="username" name="login" /></div>
+					</div>
+                </div>
+            	<div class='inputall'>
+                    <div class='inputdescr'>Password:</div> 
+					<div class='inputdiv'>
+						<div><input type="password" id="user_password" name="pwd" /></div>
+						<span>
+							Упс, умудрился потерять доступ к сайту...<br /><a href='{$gDomain}/{$component_name}/rememberpass/' title='Восстановление пароля'>Хочу восстановить! Recover password!</a>
+						</span>
+					</div>
+                </div>
+				
+				<div class='inputall'>
+                    <div class='inputdescr'></div> 
+					<div class='inputdiv'>
+						<div><input type="submit" value="Авторизоваться" /></div>
+					</div>
+                </div>				
+			</div>
+
+		</form>
+	</div>
+	
+	<div class="clear-both"></div>

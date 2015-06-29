@@ -1,0 +1,89 @@
+<div class='comments-header'><b>{$LANG.title}:</b></div>
+
+{if="!isset($no_comments)"}
+	{loop name="comments"}
+		<div class='comment_lvl{$value.level} comment_lvl {if="!empty($gUserid) && $value.user_id==$gUserid"}mycomment{/if}' style='opacity: {if="$value.rating < -9"}0.3{elseif="$value.rating < -4"}0.5{elseif="$value.rating < 0"}0.7{else}1{/if};'>
+			{if="$gUserid"}<span class='{$LANG.reply}' rel='{$value.comm_id}'></span>{/if}
+			<div class='comment-author'> 
+				<div  class='author-link'>
+					<a class='profile-link' href='{$gDomain}/profile/{$value.username}/' title='Профиль {$value.username}'>
+					<img width="100px" src="{if="!empty($value.avatar) and !empty($value.email)"}{$gDomain}/uploads/avatar/{$value.avatar}{elseif="empty($value.avatar)"}{$gDomain}/templates/default/images/topmenu-ava.png{else}{$value.avatar}{/if}" alt='{$value.username}' />{$value.username}</a>
+					<noindex>&nbsp;&nbsp;<span title='Карма' alt='Карма' class='karma-comment'>{$value.karma}</span></noindex>
+				</div> 
+				<div class='dateinner {if="$value.old < 420"}bold red{/if}'>{$value.date} </div>
+				<div class='comment-dialog'></div>
+			</div>
+			<div class='comment_text'>
+				{$value.text}
+			</div>
+			<div class='comment-rate'>
+				{$color = 'grey'}{if="$value.rating > 0"}{$color = 'green'}{elseif="$value.rating < 0"}{$color = 'red'}{/if}
+				<div class='com-rate {$color}' rel='{$value.comm_id}'>{if="$value.rating > 0"}+{/if}{$value.rating}</div>
+				{if="$gUserid"}
+				<div class='com-thumbs' rel='{$value.comm_id}'>
+					<span class='comment_thumb comment_thumb-up' title='Поддерживаю!' rel='up'></span>
+					<span class='comment_thumb comment_thumb-down' title='Не согласен!' rel='down'></span>
+				</div>
+				{/if}
+			</div>
+			{if="guser::_isAdmin()"}
+				<a class='comment_adm_link' title='удалить' href='{$gDomain}/{$component_name}/del/?id={$value.comm_id}'></a>
+				<span class='comment_adm_edit' title='редактировать' rel='{$value.comm_id}'></span>
+			{/if}
+			{if="!empty($gUserid) && $value.user_id==$gUserid && $value.old < 180"}
+				<span class='comment_adm_edit' title='редактировать' rel='{$value.comm_id}'></span>			
+			{/if}
+		</div>
+	{/loop}
+{/if}
+{if="isset($no_comments)"}
+{$LANG.no_comments}
+{/if}
+
+{if="$gUserid"}
+	<div class='add-comment' rel='0'>
+		<div id='comment_form'>
+		<form action='{$gDomain}/{$component_name}/add/' method='POST'>
+			<input type='hidden' name='component' value="{$component}">
+			<input type='hidden' name='param' value="{$param}">
+			<input type='hidden' name='redir' value="{$redir}">
+			<input type='hidden' name='parent' id='comment_parent' value="0">
+			<div style="float: left; width: 28px; padding-top: 2px;">
+				<img width="22px" src="{if="!empty($gUser.avatar) and !empty($gUser.email)"}{$gDomain}/uploads/avatar/{$gUser.avatar}{elseif="empty($gUser.avatar)"}{$gDomain}/templates/default/images/topmenu-ava.png{else}{$gUser.avatar}{/if}" alt='{$gUser.username}' style="border-radius: 3px;"/>
+			</div>
+			<div style="margin-left: 29px;">
+				<textarea name='comment' id='comment_text'>{$LANG.write_comment}</textarea><br />
+				<input type='submit' value='{$LANG.send_message}'>
+			</div>
+			<input type='submit' value='{$LANG.send_message}'>
+		</form>	
+		</div>
+	</div>	
+{else}
+	<br /><div class='nostyle'><noindex>{$LANG.authorize}</noindex></div>
+{/if}
+
+<div id='comment_edit_form' style='display: none'>
+	<form action='{$gDomain}/{$component_name}/update/' method='POST'>
+		<input type='hidden' name='comm_id' id='comment_id' value="">
+		<input type='hidden' name='redir' value="{$redir}">
+		<textarea name='comment' id='comment_edit_text'></textarea><br />
+		<input type='submit' value='Редактировать'>
+	</form>
+</div>
+
+
+<script>
+	// УДАЛЕНИЕ СТАНДАРТНОГО ТЕКСТА КОММЕНТАРИЯ ПРИ ФОКУСЕ
+	 $(function() {ctext="{$LANG.write_comment}";$("#comment_text").bind({focus: function(){if ($(this).val() == ctext) { $(this).val(""); }},blur: function(){if ($(this).val() == "") { $(this).val(ctext); }}});});
+ 
+	 
+	 $(".{$LANG.reply}, .add-comment").click( function () {
+		if ($("#comment_parent").val() != $(this).attr('rel') || $(this).attr('rel')==0)
+		{
+			$("#comment_parent").val($(this).attr('rel'));
+			$("#comment_form").hide().appendTo($(this).parent()).show();
+			$("#comment_text").focus();
+		}
+	});
+</script>

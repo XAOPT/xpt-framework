@@ -1,0 +1,211 @@
+<html lang="en">
+<head>
+    <title>{$gTitle}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="{$gDomain}/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$gDomain}/templates/admin/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{$gDomain}/templates/admin/css/dropzone.css">
+    <link rel="stylesheet" href="{$gDomain}/templates/admin/css/jquery.growl.css">
+    <link rel="stylesheet" href="{$gDomain}/lib/css/animate.css">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/menu.less">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/content_wrapper.less">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/navbar.less">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/admin.less">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/signin.less">
+
+    <script src="{$gDomain}/lib/js/jquery.min.js"></script>
+    <script src="{$gDomain}/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{$gDomain}/lib/js/less.min.js"></script>
+    <script src="{$gDomain}/lib/bootstrap/js/bootstrap-dialog.js"></script>
+    <script src="{$gDomain}/templates/admin/js/dropzone.js"></script>
+    <script src="{$gDomain}/templates/admin/js/pjax.js"></script>
+    <script src="{$gDomain}/templates/admin/js/jquery.growl.js"></script>
+    <script src="{$gDomain}/templates/admin/js/jquery.libs.js"></script>
+    <script src="{$gDomain}/templates/admin/js/jquery-ui-1.10.3.js"></script>
+    <script src="{$gDomain}/templates/admin/js/template_scripts.js"></script>
+
+    <link href="{$gDomain}/templates/admin/css/open-sans.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/lib/editors/summernote/codemirror.css" />
+    <script type="text/javascript" src="/lib/editors/summernote/codemirror.js"></script>
+    <script type="text/javascript" src="/lib/editors/summernote/formatting.min.js"></script>
+
+    <link href="/lib/editors/summernote/summernote.css" rel="stylesheet">
+    <script type="text/javascript" src="/lib/editors/summernote/summernote.min.js"></script>
+
+    <script src="{$gDomain}/components/lobby/admin/view/src/Matrix.js"></script>
+    <script src="{$gDomain}/components/lobby/admin/view/src/jquery.freetrans.js"></script>
+
+</head>
+
+<script>
+    var mainMenu = {
+        submenu_locker: false,
+        hide_submenu: function() {
+            setTimeout(function(){
+                if (!mainMenu.submenu_locker)
+                    $(".mmc-dropdown-open-ul").remove();
+            },1000);
+        },
+        init: function() {
+            $("#main-menu").on("click", "a", function(){
+                var a = $(this);
+
+                var LI = $(this).parent();
+
+                LI.siblings("LI").not(LI).each(function(){
+                    $(this).find("UL:first").slideUp("fast", function(){$(this).removeClass("open")}.bind($(this)));
+                });
+
+                if (LI.hasClass("open")) {
+                    LI.find("UL:first").slideUp("fast", function(){LI.removeClass("open")});
+                }
+                else {
+                    LI.find("UL:first").slideDown("fast", function(){LI.addClass("open"); LI.find("UL:first").removeAttr('style');})
+                }
+
+                if (a.attr("href") === "#") {
+                    return false;
+                }
+                else {
+                    $("#main-menu li").removeClass("active");
+                    a.parent().addClass("active");
+
+                    a.parents(".mm-dropdown").addClass("open"); // откроем все родительские раскладывающиеся менюшки
+                }
+
+                return;
+            });
+
+            $("#main-menu").on({
+                mouseenter: function() {
+                    mainMenu.submenu_locker = true;
+                },
+                mouseleave: function() {
+                    mainMenu.submenu_locker = false;
+                    mainMenu.hide_submenu();
+                }
+            }, ".mmc-dropdown-open-ul");
+
+            $("LI.mm-dropdown").hover(
+                function(){
+                    mainMenu.submenu_locker = true;
+
+                    $(".mmc-dropdown-open-ul").remove();
+
+                    var head = $(this).find(".mm-text:first").clone();
+                    $(this).find("UL:first").clone().removeClass("fadeInLeft").addClass("mmc-dropdown-open-ul").css({"top": $(this).position().top}).appendTo("#main-menu").prepend(head.addClass('mmc-title'));
+
+                },
+                function(){
+                    mainMenu.submenu_locker = false;
+                    mainMenu.hide_submenu();
+                }
+            );
+
+            var pathname = window.location.pathname;
+
+            if ($(".navigation a[href='"+pathname+"']").length > 0)
+                $(".navigation a[href='"+pathname+"']").click();
+        }
+    };
+    $(document).ready(function(){
+        mainMenu.init();
+        $(document).pjax('#main-menu a, a.fa, #content-wrapper a', '#content-wrapper');
+        $(document).on('submit', 'form', function(event){
+            event.preventDefault();
+            $.pjax.submit(event, '#content-wrapper');
+        });
+
+        $(document).on('pjax:beforeReplace', function(){
+            var error_type = $.cookie('error_type');
+            var error_text = $.cookie('error_text');
+
+            $.removeCookie('error_type', { path: '/' });
+            $.removeCookie('error_text', { path: '/' });
+
+            if (typeof error_type !== 'undefined')
+            {
+                if ( error_type == 'ok')
+                    $.growl.notice({ message: error_text, location: "tc" });
+                else
+                    $.growl.warning({ message: error_text, location: "tc" });
+            }
+        })
+    });
+</script>
+
+<body class='main-wrapper'>
+
+<div id="main-navbar" class="navbar" role="navigation">
+    <!-- Main menu toggle -->
+    <button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i></button>
+
+    <div class="navbar-inner">
+        <!-- Main navbar header -->
+        <div class="navbar-header">
+
+            <!-- Logo -->
+            <a href="{$gADomain}/" class="navbar-brand">
+                <div><img src="{$gDomain}/templates/admin/img/logo-18x18.png"></div>
+                ПАКМАН — игровой бар
+            </a>
+
+        </div> <!-- / .navbar-header -->
+
+        <div id="main-navbar-collapse" class="collapse navbar-collapse main-navbar-collapse">
+            <div>
+                <div class="right clearfix">
+                    <ul class="nav navbar-nav pull-right right-navbar-nav">
+                        <li>
+                            <form class="navbar-form pull-left">
+                                <input type="text" class="form-control" placeholder="Поиск">
+                            </form>
+                        </li>
+
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
+                                <img src="http://www.gravatar.com/avatar/{function="md5($gUser['email'])"}?d=mm" alt="">
+                                <span>{$gUser.realname}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="profileDialog">Профиль</a></li>
+                                <li><a href="#">Аккаунт</a></li>
+                                <li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;Настройки</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{$gADomain}/logout/"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;Выход</a></li>
+                            </ul>
+                        </li>
+                    </ul> <!-- / .navbar-nav -->
+                </div> <!-- / .right -->
+            </div>
+        </div> <!-- / #main-navbar-collapse -->
+    </div> <!-- / .navbar-inner -->
+</div>
+
+    <div id="main-menu">
+        <div>
+            <div class="animated fadeIn" id="menu-content-info">
+                <div class="hello-text">
+                    <span class="text-slim">Привет,</span>
+                    <span class="text-semibold">{$gUser.realname}</span>
+                </div>
+
+                <img src="http://www.gravatar.com/avatar/{function="md5($gUser['email'])"}?d=mm" alt="">
+            </div>
+
+            {$menu}
+        </div>
+    </div>
+    <div id="main-menu-bg"></div>
+
+    <div id="content-wrapper">
+        {isset="$component"}
+    </div>
+
+
+</body>
+
+</html>

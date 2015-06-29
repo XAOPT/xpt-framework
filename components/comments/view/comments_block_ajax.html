@@ -1,0 +1,179 @@
+<div class='comments-header'><b>{$LANG.title}:</b></div>
+
+{if="!isset($no_comments)"}
+	{loop name="comments"}
+		<div class='comment_lvl{$value.level} comment_lvl {if="!empty($gUserid) && $value.user_id==$gUserid"}mycomment{/if} {if="$value.rating > 4"}goodcomment{/if}' rel='{$value.level}' style='opacity: {if="$value.rating < -9"}0.3{elseif="$value.rating < -4"}0.5{elseif="$value.rating < -1"}0.7{else}1{/if};'>
+			{if="$gUserid"}<span class='{$LANG.reply}' rel='{$value.comm_id}'></span>{/if}
+			<div class='comment-author'> 
+				<div  class='author-link'>
+					<a class='profile-link' href='{$gDomain}/profile/{$value.username}/' title='Профиль {$value.username}'>
+					<img width="100px" src="{if="!empty($value.avatar) and !empty($value.email)"}{$gDomain}/uploads/avatar/{$value.avatar}{elseif="empty($value.avatar)"}{$gDomain}/templates/default/images/topmenu-ava.png{else}{$value.avatar}{/if}" alt='{$value.username}' />{$value.username}</a>
+					<noindex>&nbsp;&nbsp;<span title='Карма' alt='Карма' class='karma-comment'>{$value.karma}</span></noindex>
+				</div> 
+				<div class='dateinner {if="$value.old < 420"}bold red{/if}'><!--noindex-->{$value.date} <!--/noindex--></div>
+				<div class='comment-dialog'></div>
+			</div>
+			<div class='comment_text'>
+				{$value.text}
+			</div>
+			<div class='comment-rate'>
+				{$color = 'grey'}{if="$value.rating > 0"}{$color = 'green'}{elseif="$value.rating < 0"}{$color = 'red'}{/if}
+				<div class='com-rate {$color}' rel='{$value.comm_id}'>{if="$value.rating > 0"}+{/if}{$value.rating}</div>
+				{if="$gUserid"}
+				<div class='com-thumbs' rel='{$value.comm_id}'>
+					<span class='comment_thumb comment_thumb-up' title='Поддерживаю!' rel='up'></span>
+					<span class='comment_thumb comment_thumb-down' title='Не согласен!' rel='down'></span>
+				</div>
+				{/if}
+			</div>
+			{if="guser::_isAdmin()"}
+				<!-- <a class='comment_adm_link' title='удалить' onClick='return deleteComment({$value.comm_id});'></a>
+				<span class='comment_adm_edit' title='редактировать' rel='{$value.comm_id}'></span> -->
+				<div class="comment_buttonsblock">
+					<span class="button_min button_edit" title='редактировать' rel='{$value.comm_id}'></span>
+					<span class="button_min button_delete" title='удалить' onClick='return deleteComment({$value.comm_id});'></span>
+				</div>
+			{elseif="!empty($gUserid) && $value.user_id==$gUserid && $value.old < 180"}
+				<div class="comment_buttonsblock">
+					<span class="button_min button_edit" title='редактировать' rel='{$value.comm_id}'></span>
+				</div>
+				<!-- <span class='comment_adm_edit' title='редактировать' rel='{$value.comm_id}'></span>	 -->		
+			{/if}
+		</div>
+	{/loop}
+{/if}
+{if="isset($no_comments)"}
+{$LANG.no_comments}
+{/if}
+
+{if="$gUserid"}
+	<div class='add-comment' rel='0'>
+		<div id='comment_form'>
+		<form action='{$gDomain}/{$component_name}/add/' method='POST' onSubmit='return SubmitComment();' style="overflow: hidden;">
+			<input type='hidden' name='component' value="{$component}">
+			<input type='hidden' name='param' value="{$param}">
+			<input type='hidden' name='parent' id='comment_parent' value="0">
+			<div style="float: left; width: 28px; padding-top: 2px;">
+				<img width="22px" src="{if="!empty($gUser.avatar) and !empty($gUser.email)"}{$gDomain}/uploads/avatar/{$gUser.avatar}{elseif="empty($gUser.avatar)"}{$gDomain}/templates/default/images/topmenu-ava.png{else}{$gUser.avatar}{/if}" alt='{$gUser.login}' style="border-radius: 3px;"/>
+			</div>
+			<div style="margin-left: 29px;">
+				<textarea name='comment' id='comment_text'>{$LANG.write_comment}</textarea><br />
+				<input type='submit' value='{$LANG.send_message}'>
+			</div>
+		</form>	
+		</div>
+	</div>
+{else}
+	<br /><div class='nostyle'><noindex>{$LANG.authorize}</noindex></div>
+{/if}
+
+<div id='comment_edit_form' style='display: none'>
+	<form action='{$gDomain}/{$component_name}/update/' method='POST'>
+		<input type='hidden' name='comm_id' id='comment_id' value="">
+		<input type='hidden' name='redir' value="{$redir}">
+		<textarea name='comment' id='comment_edit_text'></textarea><br />
+		<input type='submit' value='Редактировать'>
+	</form>
+</div>
+
+
+<script>
+<!--
+$(function() {ctext="{$LANG.write_comment}";$("#comment_text").bind({focus: function(){if ($(this).val() == ctext) { $(this).val(""); }},blur: function(){if ($(this).val() == "") { $(this).val(ctext); }}});});
+
+$(document).ready(function(){
+
+	handleBinder();
+
+});
+
+function handleBinder()
+{
+	$(".{$LANG.reply}, .add-comment").click( function () {
+		if ($("#comment_parent").val() != $(this).attr('rel') || $(this).attr('rel')==0)
+		{
+			$("#comment_parent").val($(this).attr('rel'));
+			$("#comment_form").hide().appendTo($(this).parent()).show();
+			$("#comment_text").focus();
+		}
+	});
+}
+
+function deleteComment(comm_id)
+{
+	if (!comm_id)
+		 return false;
+		 
+	$.ajax({
+		type: "POST",
+		url: '/ajax/comments/delete/',
+		data: "id="+comm_id,
+		success: function(data) {
+			if (data == 2)
+				$('SPAN[rel="'+comm_id+'"]').parent().slideUp();
+			else if (data == 1)
+				$('SPAN[rel="'+comm_id+'"]').parent().find('.comment_text').html('Комментарий удалён модератором');
+			else 
+				alert('Ошибка');
+		}
+	});	
+	
+	return false;		
+}
+
+function SubmitComment()
+{
+	var parent    = $('INPUT[name="parent"]').val();
+	var comment   = $('#comment_text').val();
+	var param     = $('INPUT[name="param"]').val();
+	var component = $('INPUT[name="component"]').val();
+
+	$.ajax({
+		type: "POST",
+		url: '/ajax/comments/add/',
+		data: "parent="+parent+"&comment="+comment+"&param="+param+"&component="+component,
+		success: function(data) {
+			if (data == 1)
+				alert('Пустое или слишком короткое сообщение');
+			else if (data == 2)
+				alert('Вы не авторизованы на сайте');
+			else if (data == 3)
+				alert('Ошибка добавления');				
+			else if (data)
+			{
+				data = JSON.parse(data);
+				parent_obj = $("#comment_form").parent();
+				data.level = +parent_obj.attr('rel') + 1;
+				if (data.avatar) data.avatar = data.avatar; else data.avatar = "{$gDomain}/templates/default/images/topmenu-ava.png";
+				html = '<div class="comment_lvl'+data.level+' comment_lvl mycomment" rel="'+data.level+'" style="display:none" id="new'+data.comm_id+'"><span rel="'+data.comm_id+'" class="comment-reply-ru"></span> \
+						<div class="comment-author">  \
+						<div class="author-link"> \
+							<a href="{$gDomain}/profile/'+data.login+'/" class="profile-link"> \
+							<img src="'+data.avatar+'">'+data.login+'</a> \
+							&nbsp;&nbsp;<span class="karma-comment" alt="Карма" title="Карма">'+data.karma+'</span> \
+						</div> <div class="dateinner bold red">только что</div> \
+					</div> \
+					<div class="comment_text"> \
+						'+data.text+' \
+					</div> \
+					</div> \
+				';
+		
+				if (parseInt(parent) == 0)
+					$('.add-comment[rel="0"]').before(html);
+				else
+					parent_obj.after(html);
+					
+				$("#new"+data.comm_id).slideDown(); 
+				$('TEXTAREA[name="comment"]').val('');
+
+				$("#comment_form").appendTo('.add-comment[rel="0"]');	
+				handleBinder();				
+			}
+		}
+	});	
+	
+	return false;
+}
+--> 
+</script>

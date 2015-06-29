@@ -1,0 +1,55 @@
+<div class="forum">
+	<div class="header">
+		<div class="left-block">
+			<div class="navigation"><a href="{$gDomain}/forum/">Форум</a>&nbsp;&rarr;&nbsp;{$cat_title}</a></div>
+			<h2>{$cat_title}</h2>	
+		</div>		
+		<div class="right-block">			
+			<a href="{$gDomain}/forum/" class='button left-block'>На главную форума</a>
+			{if="!empty($gUser) && $gUser.warnings < 3"}
+			<a href='{$gDomain}/forum/newtopic/{$cat_id}/' class='button left-block'>Создать топик или опрос</a>
+			{else}
+			<a href='{$gDomain}/sauth/' target="_blank" class='button left-block'>Авторизоваться</a>
+			{/if}			
+		</div>
+	</div>
+	<div class="clearfix"></div>	
+	<div class="forum-container">	
+		<table cellpadding='0' cellspacing='0' border='0' width='100%' class='forum-table'>
+			<tr class='row head'>
+				<th align="left">Название темы</th>
+				<th width='60'>Сообщений</th>
+				<th width='150'>Последнее сообщение</th>
+				{if="guser::_hasAccess($component_name, 'moder')"}
+					<th></th>
+				{/if}
+			</tr>
+
+			{loop name="topics"}
+			<tr class='row {if="($key%2)>0"}even{/if}'>
+				<td class='cell'>
+						<a href='{$gDomain}/forum/view/{$value.t_id}/?p=1' class='topiclink'>{if="$value.poll"}<div class='opross'>Опрос</div>{/if}{$value.subj}</a>					<span class="small">Автор: <a href="{$gDomain}/users/profile/{$value.username}/">{$value.username}</a></span>
+						{if="isset($value.nav)"}<div class='navigation-topic'>{$value.nav}</div>{/if}	
+				</td>
+				<td align='center' class='cell' width='60'><i class="fa fa-pencil"></i> {$value.messages}</td>
+				<td class='recent cell' width='180'>						
+					<span class='small'>{$value.last_username}</span>
+					<span class='small'>{$value.last_date}, {$value.last_time}</span>						
+				</td>
+				{if="guser::_hasAccess($component_name, 'moder')"}
+					<td width='100' class='cell'>
+						<a href='{$gDomain}/forum/snap/{$value.t_id}/' title='Прикрепить/открепить' class="fa fa-arrow-up"></a>
+						<a href='{$gDomain}/forum/edit_topic/{$value.t_id}/' title='Редактировать' class="fa fa-edit"></a>
+						{if="$value.published != 1"}
+							<a href='{$gDomain}/forum/publish/{$value.t_id}/' title='Открыть' class="fa fa-eye"></a>
+						{else}
+							<a href='{$gDomain}/forum/publish/{$value.t_id}/' title='Закрыть' class="fa fa-eye-slash"></a>
+						{/if}
+						<a href='{$gDomain}/forum/delete_topic/{$value.t_id}/' title='Удалить' class="fa fa-remove"></a>
+					</td>
+				{/if}
+			</tr>
+			{/loop}
+		</table>
+	</div>	
+</div>

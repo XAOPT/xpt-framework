@@ -1,0 +1,48 @@
+<div class="page-header">
+	<h1>Редактирование группы пользователей</h1>
+</div>
+
+<form action='{$gADomain}/{$component_name}/save_group/' method='post'>
+{if="isset($group.ugid)"}
+	<input type='hidden' name='ugid' value='{$group.ugid}'>
+{/if}
+
+<table>
+	<tr>
+		<td class="bold" style='width: 200px'>Название:</td>
+		<td><input class="form-control input-sm" name='title' type='text' value='{isset="$group.title"}'></td>
+	</tr>
+	{loop name="components"}
+		<tr class="" style="background:#efefef; border-bottom:4px solid #ffffff;">
+			<td valign='top' class='bold'> <input type='checkbox' class='check_all' rel='access_{$value1.sysname}'>&nbsp;{$value.title}</td>
+			<td>
+				{loop name="$value.access"}
+					{if="is_object($value1['access'][$key2])"}
+						<input type='checkbox' class='group_check' rel='access_{$value1.sysname}' name="access_{$value1['sysname']}[{$key2}]" {if="isset($group['access_comp'][$value1.sysname][$key2])"}CHECKED{/if}>
+						{$value1['access'][$key2]->text}
+						{if="$value1['access'][$key2]->type == 'text'"}
+							<input class="form-control input-sm" type="text" name="params_{$value1.sysname}_{$key2}" value='{if="isset($group['access_comp'][$value1.sysname][$key2])"}{function="implode(',', $group['access_comp'][$value1.sysname][$key2])"}{/if}'>
+						{/if}
+					<br/>
+					{else}
+					<input type='checkbox' class='group_check' rel='access_{$value1.sysname}' name='access_{$value1.sysname}[{$key}]' {if="isset($group['access_comp'][$value1.sysname][$key2])"}CHECKED{/if}> {$value}<br />
+					{/if}
+				{/loop}
+			</td>
+		</tr>
+	{/loop}
+</table>
+<br /><br />
+
+<input type='submit' class="btn btn-success" value='{:save}'><br /><br />
+
+</form>
+
+<script>
+$(".check_all").click(function(){
+	if (this.checked)
+		$('.group_check[rel="'+$(this).attr('rel')+'"]').attr('checked', true);
+	else
+		$('.group_check[rel="'+$(this).attr('rel')+'"]').attr('checked', false);
+})
+</script>

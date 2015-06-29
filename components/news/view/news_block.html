@@ -1,0 +1,21 @@
+<div class="news-module">
+	<h2>новости</h2>
+	<a class="arhive-link" href="{$gDomain}/{$component_name}/">архив новостей</a>
+
+	<div class="items">
+		{loop name="news"}
+			<div class="item">
+				<div class="image">
+					<a href="{$gDomain}/{$component_name}/{$value.alias}/"><img src="{$gDefaultDomain}/uploads/news/{$value.img}"></a>
+				</div>
+				<div class="info">
+					<div class="created">{function="date('d', strtotime($value.dtime))"} {$value.word_month}</div>
+					<div class="comments">
+						<div class="icon icon-comments"></div>{$value.coms}
+					</div>
+				</div>
+				<a class="title" href="{$gDomain}/{$component_name}/{$value.alias}/">{$value.title}</a>
+			</div>
+		{/loop}
+	</div>
+</div>

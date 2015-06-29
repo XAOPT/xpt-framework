@@ -1,0 +1,416 @@
+<div class="forum">
+	<div class='header'>
+		<div class="left-block">
+			<a href="{$gDomain}/{$component_name}/">Форум</a>&nbsp;&rarr;&nbsp;<a href="{$gDomain}/{$component_name}/cat/{$topic.cat_id}/">{$topic.cat_title}</a>&nbsp;&rarr;&nbsp;{$topic.subj}
+			<h1>{$topic.subj}</h1>
+		</div>	
+		<div class="right-block">
+			<a href="{$gDomain}/{$component_name}/cat/{$topic.cat_id}/" class='button left-block'>&larr; Вернуться в раздел "{$topic.cat_title}"</a>
+			{if="guser::_hasAccess($component_name, 'moder', $topic.cat_id)"}
+			<a class='button left-block fa fa-edit' href='{$gDomain}/{$component_name}/edit_topic/{$topic.t_id}/' title='Редактировать'></a>
+			<a class='button left-block fa {if="$topic.published"}fa-eye-slash{else}fa-eye{/if}' href='{$gDomain}/{$component_name}/publish/{$topic.t_id}/' title='Закрыть/открыть тему'></a>
+			{/if}
+			{if="!empty($gUser)"}
+			<!--<a href='{$gDomain}/{$component_name}/newtopic/{$topic.cat_id}/' class='nforum-head-button'>Создать топик или опрос</a>-->
+			{else}
+			<a href='{$gDomain}/auth/' target="_blank" class='nforum-head-button'>Авторизоваться</a> <a href='{$gDomain}/reg/' target="_blank" class='nforum-head-button'>Зарегистрироваться</a>
+			{/if}
+		</div>				
+	</div>
+	
+	<div class="forum-container">
+		<div class="messages">
+			{loop name="messages"}
+				<div class="message">
+					<div class="message-author left-block">
+						
+					</div>
+					<div class="message-body left-block">
+						
+					</div>					
+				</div>
+			{/loop}			
+		</div>
+	</div>
+</div>
+
+<!--<script src="http://arcticlab.ru/arcticmodal/js/arcticmodal/jquery.arcticmodal-0.3.min.js"></script>
+<script src="{$gDomain}/templates/default/js/jquery.jdpicker.js?r=24533"></script>
+<link href="{$gDomain}/templates/default/css/jdpicker.css" rel="stylesheet"></link>
+<link href="http://arcticlab.ru/arcticmodal/js/arcticmodal/jquery.arcticmodal-0.3.css" rel="stylesheet"></link>
+<link href="http://arcticlab.ru/arcticmodal/js/arcticmodal/themes/simple.css" rel="stylesheet"></link>-->
+<div id='forumdiv' class='nforum'>
+<div class="g-hidden"  style="display:none;">
+	<div id="warn_modal" title="Предупреждение" class="box-modal">
+	<div class="box-modal_close arcticmodal-close">закрыть</div>
+		<form id="preda_f" method="post" action="{$gDomain}/{$component_name}/add_warning/?m_id=">
+				<input type="text" name="text" style="width: 380px;" id="text" placeholder="Здесь текст предупреждения">
+				<input type="submit" value="OK">
+		</form>
+	</div>
+</div>
+<div class="g-hidden"  style="display:none;">
+	<div id="banned" class="box-modal">
+	<div class="box-modal_close arcticmodal-close">закрыть</div>
+	<h2 style="h2">Забанить пользователя</h2>
+	<form id="ban_form" method="post" action="{$gDomain}/{$component_name}/add_bans/?user_id=">
+		<table>
+				<tr><td><label>Причина</label></td><td><input type="text" name="why" style="width: 370px;" id="why"></td></tr>
+				<tr><td><label>Дата окончания</label></td><td><input type="text" class="jdpicker" name="date" style="width: 370px;" id="date"></td></tr>
+				<tr><td><label>Спамер?</label></td><td><input name="spamer" value="1" type="checkbox" /></td></tr>
+				<tr><td><input type="submit" value="Забанить"></td></tr>
+		</table>	
+		</form>
+	</div>
+</div>					
+	
+	<div class='forumSolidTable_container  nforumSolidTable_container'>
+		
+		<div class='nforum-bigborder' style='border-top: 0 none;'>
+		{if="$topic.messages > 20"}<div class='nforum-pagination toppag'>{$pagination}</div>{/if}
+		<table  cellpadding='0' cellspacing='0' border='0' width='100%' class='forum_full_table'>
+	
+		{$focus_mess = count($messages)-3}
+
+		{loop name="messages"}
+		{$author = $users[$value['userid']]}
+		{$num = ($page-1)*20+$counter+1}
+		<tr class='{if="guser::id() == $value.userid"}nforum-mytr{/if} '>
+			<td colspan='2' style='padding: 0;'>
+				<div class='forum-userlogin'>
+					<div class='left-block'><a href="{$gDomain}/users/profile/{$author['login']}/">{$author['login']}</a></div>
+					
+					<div class='right-block' style="width: 200px; text-align: right;">
+						{if="($value['userid'] == guser::id() && $topic.published) || guser::_hasAccess($component_name, 'moder', $topic.cat_id)"}
+						{if="guser::_hasAccess($component_name, 'moder', $topic.cat_id)"}
+						<a href='{$gDomain}/{$component_name}/add_bans/?user_id={$value.userid}' id2="{$value.m_id}" id="{$value.userid}" class="button_min button_bans addban" title="Забанить" onclick="return false;" style="float: left; margin: 2px 5px 0 0;"></a>
+						<a href='{$gDomain}/{$component_name}/add_warning/?m_id={$value.m_id}' id="{$value.m_id}" class="button_min button_warning addwarning" title="Предупреждение" onclick="return false;" style="float: left; margin: 2px 5px 0 0;"></a>
+						{/if}
+						{if="$gUser.warnings < 3"}
+						<a href="{$gDomain}/{$component_name}/editmess/{$value.m_id}/" class="button_min button_edit" title="Редактировать" style="float: left; margin: 2px 5px 0 0;"></a>
+						<a href='{$gDomain}/{$component_name}/delmess/{$value.m_id}/' class="button_min button_delete" title="Удалить" style="float: left; margin: 2px 5px 0 0;"></a>
+						<button type="button" class="btn btn-primary maybe link_translucent2 quote_link2">
+							<i class="icon-bullhorn icon-white"></i>
+							<span>Цитировать</span>
+						</button>
+						{/if}
+						{elseif="guser::id()"}
+						<button type="button" class="btn btn-primary maybe link_translucent2 quote_link2">
+							<i class="icon-bullhorn icon-white"></i>
+							<span>Цитировать</span>
+						</button>
+						{/if}
+						<div style='display: none;'>
+							<span class='qd'>{$value.dtime}</span>
+							<span class='ql'>{$author['login']}</span>
+							<span class='qm'>{$value.qmess}</span>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr class='{if="$counter%2==0"}whitetr{else}graytr{/if} {if="$gUserid == $value.userid"}nforum-mytr{/if} nforum-mytr2 nforum-massagetr'>
+			<td width='180' valign='top' class='forum-author'>
+				<div>
+					{if="$author['avatar'] and $author['email']"}
+					<a class='nforum-profile-link' href="{$gDomain}/users/profile/{$author['login']}/" title="Профиль {$author['login']}" rel='nofollow'><img src="{$gDomain}/uploads/avatar/full/{$author['avatar']}" alt="{$author['login']}" /></a>
+					{elseif="!$author['avatar'] and $author['email']"}
+					<a class='nforum-profile-link' href="{$gDomain}/users/profile/{$author['login']}/" title="Профиль {$author['login']}" rel='nofollow'><img src="{$gDomain}/templates/default/images/avatar100.png" alt="{$author['login']}" /></a>
+					{else}
+					<a class='nforum-profile-link' href="{$gDomain}/users/profile/{$author['login']}/" title="Профиль {$author['login']}" rel='nofollow'><img width="100px" src="{$author['avatar']}" alt="{$author['login']}" /></a>					
+					{/if}
+				</div>
+
+				<noindex>
+					<div style='padding: 1px 0 0 2px;'>
+						{$kar = $author['karma']}
+						{$mes = $author['forum_mess']}
+						{$log = $author['login']}
+						{noparse}
+						<!--<a rel='nofollow' href='{$gDomain}/{$component_name}/view/844/?p=1' class='forum-ustatus1 {if="$log == 'Maelstorm' || $log == 'maybehelpy'"}Roshan{else}{function="guser::_statusByMessages($author['forum_mess'])"}{/if}'>
+							{if="$log == 'Maelstorm'"}Virtus.Pro{elseif="$log == 'maybehelpy'"}МожетПоможет
+							{else}
+							{function="guser::_statusByKarma($author['karma'])"}
+							{function="guser::_statusByMessages($author['forum_mess'])"}
+							{/if}
+						</a>-->
+						{/noparse}
+					</div>
+					{if="!empty($author['groups'])"}
+					<div class="left-block"  style='padding: 3px 0 0 2px;'>
+						<div class='forum-ustatus2'>{function="guser::_groupText($author['groups'])"}</div>
+					</div>
+					{/if}
+					<div style='padding: 3px 0 0 2px; width: 100px; text-align: center;'>
+						<span class='karma-comment forumkarma' title='Карма пользователя'>{$author['karma']}</span><span class='forummess' title='Количество сообщений на форуме'>{$author['forum_mess']}</span>
+					</div>
+					{if="isset($author['warnings']) && $author['warnings'] > 0"}
+					<div style='padding: 1px 0 0 2px; width: 100px; text-align: center;'>
+						{if="guser::_hasAccess($component_name, 'warnings')"}
+						{function="str_repeat('<a href="'.$gDomain.'/'.$component_name.'/remove_warning/?userid='.$author['userid'].'&utime='.$author['utime'].'" title="'.$author['text'].'"><i class="icon-exclamation-sign icon-black"></i></a> ', $author['warnings'])"}
+						{else}
+						{function="str_repeat('<i class="icon-exclamation-sign icon-black" title="'.$author['text'].'"></i> ', $author['warnings'])"}
+						{/if}
+					</div>
+					{/if}
+					{if="isset($author['banned']) && $author['banned'] > 0"}
+					<div style='padding: 1px 0 0 2px; width: 100px; text-align: center;'>
+						{if="guser::_hasAccess($component_name, 'rembans')"}
+						<a href="{$gDomain}/{$component_name}/remove_ban/?user_id={$author['userid']}" title="Снять бан"><i class="icon-warning-sign icon-black"></i></a> 
+						{else}
+						<i class="icon-warning-sign icon-black" title="Забанен"></i>
+						{/if}
+					</div>
+					{/if}
+				</noindex>
+			</td>
+			<td valign='top' class='forum-message'>
+				{if="$counter == 0 && $page == 1"}
+				{if="$topic.poll"}
+				{$poll_width = 650}
+				<div class='poll-div'>
+					<b style='font: bold 14px/18px Tahoma;'>Опрос: {$topic.poll}</b> 
+					{if="!($poll_show)"}<strong style='color: #838383;'>(результаты будут известны после закрытия голосования)</strong>{/if}
+					{if="$topic.poll_state == 'close' && guser::_hasAccess($component_name, 'moder', $topic.cat_id)"}
+					[<a href='{$gDomain}/{$component_name}/poll_open/?id={$topic.t_id}' class='forum username'>открыть</a>
+					{elseif="$topic.poll_state != 'close' && guser::_hasAccess($component_name, 'moder', $topic.cat_id)"}
+					[<a href='{$gDomain}/{$component_name}/poll_close/?id={$topic.t_id}' class='forum username'>закрыть</a>
+					{/if}
+					{if="guser::_hasAccess($component_name, 'moder', $topic.cat_id)"}
+					| <a href='{$gDomain}/{$component_name}/poll_delete/?id={$topic.t_id}' class='forum username'>удалить</a>]
+					{/if}
+					<br />
+					<div style="padding-top: 10px;">
+						<form method='post' action='{$gDomain}/{$component_name}/vote/'>
+							<input type='hidden' name='t_id' value='{$topic.t_id}' />
+							{loop="poll_answers"}								
+							{if="$poll_count > 0"}{$a_per = intval($value2.count * 100 / $poll_count)}{else}{$a_per = 0}{/if}
+							{$a_width = intval($a_per * $poll_width / 100 + 1)}
+
+							{if="!empty($gUser) && !$user_count && $topic.poll_state != 'close'"}
+							<div id="poll_ans">
+								{if="!$topic.poll_many"}
+								<input type="radio" name="answers[]"  value="{$value2.a_id}"> {$value2.answer}<br />
+								{else}
+								<input type="checkbox" name="answers[]" value="{$value2.a_id}"> {$value2.answer}<br />
+								{/if}
+							</div>
+							{else}
+
+							{if="in_array($value2.a_id, $user_votes)"}
+							{$pfw = "bold"}
+							{else}
+							{$pfw = ""}
+							{/if}
+							<div class="{$pfw}">{$value2.answer}</div>
+
+							{/if}
+							{if="(empty($gUser) && $poll_show) || ($user_count && $poll_show)"}
+							<div class='poll-colba'><div class='poll-colba2' style="width:{$a_per}%; "></div><span>{$a_per}%</span><i>{$value2.count}</i></div>
+							{elseif="(empty($gUser) && $topic.poll_show == 3) || ($user_count && $topic.poll_show == 3)"}
+							<div class='poll-colba' style="height: 8px;"><div class='poll-colba2' style="width: 0%; height: 8px;"></div><span></span></div>
+							{/if}
+							{/loop}
+							
+							<div class='poll-bottom'>
+								{if="$topic.poll_state != 'close' && !$user_count && !empty($gUser)"}
+								<input type='submit' value='Проголосовать' onclick="return pollCheck()">
+								{/if}
+								<div class='golosov'>Всего проголосовавших: {$poll_count_users}</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<br />
+				{/if}
+				{/if}
+				<span class='message'>{$value.message}</span>
+				{if="!empty($value.editor)"}
+				<div class='message_editor'>
+					{loop="$value.editor"}
+					Сообщение отредактировал <a href="{$gDomain}/users/profile/{$value2[0]}/" rel="nofollow" target="_blank">{$value2[0]}</a> ({function="date('d.m.Y H:i', $value2[1])"})<br />
+					{/loop}
+				</div>
+				{/if}
+				{if="isset($author['subs']) && !empty($author['subs'])"}
+				<span class='foum_subs'><hr /><br clear='both'>{$author['subs']}</span>
+				{/if}				
+			</td>
+		</tr>
+		{/loop}
+	</table>
+	<div class='nforum-pagination nforum-bottom-pagi'>{$pagination}</div>
+	{if="$topic.published==1"}
+	<table  cellpadding='0' cellspacing='0' border='0' width='100%' class='nforum_table_cat yellow'>
+		{if="isset($gUser) && !empty($gUser) /*&& $gUser.karma > -10 && $gUser.warnings < 3*/"}
+		<!-- <tr class='cols_description cd_newmes'>
+			<th style='text-align:left !important;'>Новое сообщение</th>
+			<th align='center'></th>
+		</tr> -->
+		<tr class='yellowtr'>
+			<td width='140' valign='top' class='forum-author'>
+				{if="$gUser.avatar and $gUser.email"}
+				<a class='nforum-profile-link' href="{$gDomain}/users/profile/{$gUser.login}/" title="Профиль {$gUser.login}" rel='nofollow'><img src="{$gDomain}/uploads/avatar/full/{$gUser.avatar}" alt="{$gUser.login}" /></a>
+				{elseif="!$gUser.avatar and $gUser.email"}
+				<a class='nforum-profile-link' href="{$gDomain}/users/profile/{$gUser.login}/" title="Профиль {$gUser.login}" rel='nofollow'><img src="{$gDomain}/templates/default/images/avatar100.png" alt="{$gUser.login}" /></a>
+				{else}
+				<a class='nforum-profile-link' href="{$gDomain}/users/profile/{$gUser.login}/" title="Профиль {$gUser.login}" rel='nofollow'><img width="100px" src="{$gUser.avatar}" alt="{$gUser.login}" /></a>
+				{/if}
+			</td>
+			<td valign='top' class='forum-message'>
+				<noindex>
+					<form method='post' action='{$gDomain}/{$component_name}/reply/' onSubmit="return doCheck();">
+						<input type='hidden' name='t_id' value='{$topic.t_id}' />
+						<div class='smiles'>
+							{loop="smiles"}
+							<a href="javascript:insertBB('topic_ta', '{$value}')"><img src="{$gDomain}/components/{$component_name}/view/smiles/{$key}.gif" alt='{$key}'/></a>
+							{/loop}
+						</div>
+						<div class='bbcodes-div'>
+							<a href="javascript:insertBB('topic_ta', '[b]', '[/b]')" class='bbcodeicon bbbold'></a>
+							<a href="javascript:insertBB('topic_ta', '[i]', '[/i]')" class='bbcodeicon bbitalic'></a>
+							<a href="javascript:insertBB('topic_ta', '[u]', '[/u]')" class='bbcodeicon bbunderline'></a>
+							<a href="javascript:bbPopup('topic_ta', '[img]', '[/img]')" class='bbcodeicon bbimage'></a>
+							<a href="javascript:bbPopupUrl('topic_ta')" class='bbcodeicon bblink'></a>
+							<a href="javascript:insertBB('topic_ta', '[spoiler=Скрытый текст]', '[/spoiler]')" class='bbcodeicon bbspoiler'></a>
+							{if="!empty($gUser) && guser::_isAdmin()"}
+							<a class='bbcodeicon bbspoiler bbaudiomem' name="audiomem_block" href="#audiomem_block"></a>
+							<div id="audiomem_block">Аудио мем<input class="input" type="text"><div></div><div><input class="input" type="buton" id="audiomem_button_ok"></div></div>
+							{/if}
+						</div>
+						<textarea class="input" id="topic_ta" name='message'  id="tbMsg" style='width: 435px; height:200px' rows='10'></textarea>
+						<input class="button" type='submit' value='Отправить новое сообщение'>
+					</form>
+				</noindex>
+			</td>
+		</tr>
+		{elseif="isset($gUser) && !empty($gUser) /*&& ($gUser.karma <= -10 || $gUser.warnings > 2)*/"}
+		<tr class='yellowtr'>
+			<td valign='top' class='forum-message' style='text-align: center;'>
+				<noindex>
+					<div class='nostyle' style='background-color: transparent; text-align: left;'>{if="$gUser.warnings > 2"}Вы забанены на форуме, печалька :({else}Чтобы оставлять сообщения на форуме, необходима карма > -10...{/if}</div>
+				</noindex>
+			</td>
+		</tr>
+		{else}
+		<tr class='yellowtr'>
+			<td valign='top' class='forum-message' style='text-align: center;'>
+				<noindex>
+					<div class='nostyle' style='background-color: transparent; text-align: left;'>Чтобы оставлять сообщения на форуме, вы должны <a href='{$gDomain}/sauth/'>Авторизоваться</a>
+				</noindex>
+			</td>
+		</tr>
+		{/if}
+	</table>
+	{/if}
+</div>
+</div>
+<noindex>
+	<div style='padding: 6px 0;'><a href="{$gDomain}/{$component_name}/">Форум</a>&nbsp;&rarr;&nbsp;<a href="{$gDomain}/{$component_name}/cat/{$topic.cat_id}/">{$topic.cat_title}</a>&nbsp;&rarr;&nbsp;{$topic.subj}
+	</div>
+</noindex>
+</div>
+
+{if="guser::id() == 1 || guser::id() == 2"}
+
+{/if}
+
+<script type="text/javascript" src="{$gDomain}/components/{$component_name}/view/bb.js"></script>
+<script type="text/javascript">
+	var formAudio = function(s){
+		var str = "";
+		if (s.path && s.title && s.ext && s.ext.length) {
+			str += '<audio controls="controls" preload="none" style="width:80%; height: 40px;">';
+			for (var i=0; i<s.ext.length; i++) {
+				var type = s.type && s.type[i] ? 'type="'+s.type[i]+'"' : '';
+				str += '<source src="'+(s.path+'.'+s.ext[i])+'" '+type+'>';
+			}
+			str += "Ваш браузер сильно устарел и не поддерживает элемент audio";
+			str += '</audio>';
+		}
+		return str;
+	};
+
+	var formButton = function (s){
+		var str = "";
+		if (s.path && s.title && s.ext && s.ext.length) {
+			var isMp3 = 0;
+			for (var i=0; i<s.ext.length; i++) {
+				if (s.ext[i] == "mp3") {
+					isMp3 = 1;
+				}
+			}
+			var path = s.path + "." + (isMp3 ? "mp3": s.ext[0]);
+			str += '<a class="" style="vertical-align: bottom; margin: 0 0 4px 8px;" onClick="audiomem_insert(\''+path+'\')">Вставить код</a><br>';
+			str += s.title;
+		}
+		return str;
+	};
+
+	function audiomem_callback (data){
+		if (data && data.length > 0) {
+			var str = "";
+			for (var i=0, l=data.length; i<l; i++) {
+				var s = formAudio(data[i]);
+				var b = formButton(data[i]);
+				if (s) {
+					str += "<div>"+s + b + "</div>";	
+				}
+			}
+			var el = $("#audiomem_block div");
+			el.html(str);
+		}
+	}
+	function audiomem_insert (path){
+		var el = $("#audiomem_block input");
+		el.val(path);
+	}
+	$(".bbaudiomem").leanModal({
+		onShow: function(){
+			$.ajax({url:"http://audiomem.ru/api/get_mems.php?jsoncallback=audiomem_callback", crossDomain:true, dataType: "script"});
+		},
+		onHide: function(){
+			var el = $("#audiomem_block div");
+			el.html("");
+		}
+	});
+	$("#audiomem_button_ok").click(function(){
+		var el = $("#audiomem_block input");
+		var path = el.val();
+
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+});
+	function set_quote(login, date, val)
+	{
+		var sel = '';
+		if(document.getSelection())
+			sel = getSelection();
+		else if(document.selection)
+			sel = document.selection;
+		else
+			sel =  val;
+
+		var open  = "[quote login="+login+" date="+date+"]";
+		var close = "[/quote]";
+
+
+	}
+</script>
+<script>
+	$(function(){
+		$('form').submit(function(){
+    // Блокируем кнопки при отправке формы
+    $('input[type=submit]', $(this)).attr('disabled', 'disabled');
+});
+	}); 
+</script>	
+<script type="text/javascript">
+	$('.addwarning').on("click",function(){
+		$("#preda_f").attr("action", "{$gDomain}/{$component_name}/add_warning/?page={$page}&m_id=" + this.id);
+		$('#warn_modal').arcticmodal();
+	});
+	$('.addban').on("click",function(){
+		$('#ban_form').attr("action", "{$gDomain}/{$component_name}/add_bans/?m_id="+this.getAttribute('id2')+"&user_id=" + this.id);
+		$('#banned').arcticmodal();
+	});
+</script>

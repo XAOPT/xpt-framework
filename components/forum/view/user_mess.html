@@ -1,0 +1,32 @@
+<div class='forumSolidTable_container  nforumSolidTable_container'>
+		<div class='nforum-head' style='text-align: right;'>
+			<a href="{$gDomain}/forum/" class='nforum-head-button-left'>&larr; На форум</a>
+		</div>
+		<div class='nforum-bigborder' style='border-top: 0 none;'>
+		{if="$total > 20"}<div class='nforum-pagination toppag'>{$pagination}</div>{/if}
+			<table  cellpadding='0' cellspacing='0' border='0' width='100%' class='nforum_table_cat nforum_table_cat_noborder'>
+		<tr class='cols_description'>
+			<th width='80%' style='text-align:left !important;'>Текст сообщения</th>
+			<th width="10%" style='text-align:left !important;'>Редактировать</th>
+		</tr>
+		{loop name="messages"}
+		<td colspan="2">
+		<div class="nforum-userlogin">
+			<div class='nforum-userlogin-left'>
+				<a href="{$gDomain}/forum/find_page/?m_id={$value.m_id}&t_id={$value.t_id}"><strong>{$value.ftime}</strong></a>
+		 	</div>
+			 <div class="nforum-userlogin-buttons" style="width: 65px; text-align: right;">
+			 	<a href="{$gDomain}/{$component_name}/editmess/{$value.m_id}/" class="button_min button_edit" title="Редактировать" style="float: left; margin: 2px 5px 0 0;"></a>
+				<a href='{$gDomain}/{$component_name}/delmess/{$value.m_id}/' class="button_min button_delete" title="Удалить" style="float: left; margin: 2px 5px 0 0;"></a>
+			</div>	
+		</div>	
+		</td>  	
+		<tr>
+			<td>{$value.message}</td>
+		</tr>
+
+		{/loop}
+		</table>
+		{if="$total > 20"}<div class='nforum-pagination toppag'>{$pagination}</div>{/if}
+		</div>
+</div>

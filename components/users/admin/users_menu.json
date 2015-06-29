@@ -1,0 +1,8 @@
+{
+	"icon":"fa-file-o",
+	"title":"Users",
+	"actions":[
+		{"href":"/list/", "title":"List", "access":["edit", "delete"]},
+		{"href":"/groups_list/", "title":"Groups", "access":[]}
+	]
+}

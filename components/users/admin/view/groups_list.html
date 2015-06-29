@@ -1,0 +1,31 @@
+<div class="page-header">
+	<h1>{:user_groups_list}</h1>
+</div>
+
+<div class="page-header-menu">
+	<a href="{$gADomain}/{$component_name}/add_group/" class="btn btn-flat btn-sm btn-labeled btn-success" id="add-project-button"><span class="btn-label icon fa fa-plus"></span>{:add_user_group}</a>
+</div>
+
+<table class="table table-bordered table-primary">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>{:title}</th>
+		<th width='110'>&nbsp;</th>
+	</tr>
+	</thead>
+	<tbody>
+	{loop name="groups"}
+	<tr>
+		<td>{$value.ugid}</td>
+		<td><a href='{$gADomain}/{$component_name}/edit_group/?ugid={$value.ugid}' title='{:edit}'>{$value.title}</a></td>
+		<td>
+			{if="$value.ugid != 1"}
+			<a class="fa fa-edit" href='{$gADomain}/{$component_name}/edit_group/?ugid={$value.ugid}' title='{:edit}'></a>
+			<a class="fa fa-remove" href='{$gADomain}/{$component_name}/delete_group/?ugid={$value.ugid}' title='{:delete}'></a>
+			{/if}
+		</td>
+	</tr>
+	{/loop}
+	</tbody>
+</table>

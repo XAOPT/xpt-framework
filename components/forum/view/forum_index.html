@@ -1,0 +1,64 @@
+
+<div class='forum'>
+	<div class="header">	
+		<div class="left-block">
+			<h2>Форум</h2>
+		</div>
+		<div class="right-block">	
+			<form method="get" action="{$gDomain}/forum/search/">
+				<input name="q" class="input left-block" placeholder="Текст для поиска..." type="text"> 
+				<input class="button" type="submit" value="Поиск">
+			</form>
+		</div>
+	</div>
+	<div class="clearfix"></div>	
+	<div class="forum-container">
+	{loop name="forum_cats"}
+	{if="$value.showme == 1"}
+		{if="$value.level > 0"}
+			<table width='100%' class='forum-table cats-list'>
+				<tr class='row {if="($key%2)>0"}even{/if}'>
+					<td class='cell title' width="50">
+						<i class="fa fa-folder-open"></i>
+					</td>
+					<td class='cell description'>
+						<a href='{$gDomain}/{$component_name}/cat/{$value.cat_id}/' class='cat-title'>{$value.cat_title}</a>
+						<span class='forum-descr'>
+							{$value.descr}
+						</span>
+					</td>
+					<td class='cell stat' width='100' style='text-align: left;'>Тем: {$value.incat}<br/>
+																				Ответов: {$value.messages}</td>
+					<td class='recent cell' width='220'>
+						{if="$value.last_userid"}							
+							<a href="{$gDomain}/{$component_name}/view/{$value.t_id}/#m{$value.last_mess}">{$value.last_subj}</a> | 
+							{$value.last_date}, {$value.last_time} от <a class='black-a' href='{$gDomain}/profile/{$value.last_username}/' title='Посмотреть профиль {$value.last_username}'>{$value.last_username}</a>
+						{else}
+							В этом разделе ещё никто не писал
+						{/if}
+					</td>
+				</tr>
+			</table>				
+		{else}
+			<h3 class='cat-head'>{$value.cat_title}</h3>
+		{/if}
+	{/if}
+	{/loop}
+	</div>
+</div>
+<table cellpadding='0' cellspacing='0' border='0' width='100%' class='forumTable forumSolidTable'>
+	<tr class='cols_description'>
+		<th align='left' valign='bottom'><h2>Последние сообщения</h2></th>
+	</tr>
+</table>
+<div style='overflow: hidden;'>
+{function="master_module('last_topics')"}
+</div>
+
+{if="guser::_isAdmin()"}
+<br clear='both'>
+<!-- <div>
+	<br /><br />
+	{function="master_module('gaid_index')"}
+</div> -->
+{/if}

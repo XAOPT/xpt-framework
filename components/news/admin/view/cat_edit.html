@@ -1,0 +1,27 @@
+<div class="page-header">
+	{if="!isset($cat.cat_id)"}
+	<h1>{$LANG.cat_h1_new}</h1>
+	{else}
+		<h1>{$LANG.cat_h1_edit}</h1>
+	{/if}
+</div>
+
+<div class="col-md-6">
+	<form action='{$gADomain}/{$component_name}/catsave/' method='post' class="form-horizontal" role="form">
+		{if="isset($cat.cat_id)"}
+			<input type='hidden' value='{$cat.cat_id}' name='cat_id'>
+		{/if}
+
+		<div class="form-group">
+			<label for="cat_title">{$LANG.cat_title}:</label>
+			<input class="form-control input-sm" id="cat_title" name='cat_title' type='text' value='{isset="$cat.cat_title"}'>
+		</div>
+
+
+		<div class="form-group">
+			<label for="desc">{$LANG.cat_descr}:</label>
+			<textarea name='desc' id="desc" class="form-control">{isset="$cat.descr"}</textarea>
+		</div>
+		<input class="btn btn-success btn-flat btn-labeled" type='submit' value='{$LANG.save}'>
+	</form>
+</div>

@@ -1,0 +1,311 @@
+
+<div id='forumdiv' class='nforum {if="$gUser.usergroupid == 1"}{/if}'>
+<a href="{$gDomain}/forum/">Форум</a>&nbsp;&rarr;&nbsp;<a href="{$gDomain}/forum/cat/{$topic.cat_id}/">{$topic.cat_title}</a>&nbsp;&rarr;&nbsp;{$topic.subj}
+<h1><!-- <a class='profile-link' href='{$gDomain}/profile/{$messages[0][login]}/' title='Профиль {$messages[0][login]}'>{if="$messages[0][avatar]"}<img src='{$domain}/uploads/avatar/{$messages[0][avatar]}' alt='{$messages[0][login]}' />{else}<img src='{$domain}/templates/default/images/topmenu-ava.png' alt='{$messages[0][login]}' />{/if}</a>  -->
+{$topic.subj}</h1>
+<div class='forumSolidTable_container  nforumSolidTable_container'>
+	<div class='nforum-head' style='text-align: right;'>
+		<a href="{$gDomain}/forum/cat/{$topic.cat_id}/" class='nforum-head-button-left'>&larr; Вернуться в раздел "{$topic.cat_title}"</a>
+		{if="$gUser.usergroupid == 1 || $topic.userid == $gUserid || $gUser.usergroupid == 4"}
+			<a class='nforum-head-button' href='{$gDomain}/forum/edit_topic/{$topic.t_id}/' title='Редактировать'>Редактировать тему</a>
+			<a class='nforum-head-button' href='{$gDomain}/forum/publish/{$topic.t_id}/' title='Закрыть/открыть тему'>Закрыть/открыть тему</a>
+		{/if}
+		{if="!empty($gUser)"}
+			<a href='{$domain}/forum/newtopic/{$cat_id}/' class='nforum-head-button'>Создать топик или опрос</a>
+		{else}
+			<a href='{$domain}/auth/' target="_blank" class='nforum-head-button'>Авторизоваться</a> <a href='{$domain}/reg/' target="_blank" class='nforum-head-button'>Зарегистрироваться</a>
+		{/if}
+	</div>
+	<div class='nforum-bigborder'>
+
+	{if="$topic.messages > 20"}<div class='nforum-pagination toppag'>{$pagination}</div>{/if}
+	<table  cellpadding='0' cellspacing='0' border='0' width='100%' class='nforum_table_cat'>
+		<!-- <tr class='cols_description'>
+			<th style='text-align:left !important;'>Автор</th>
+			<th width='60' style='text-align:left !important;'>Текст сообщения</th>
+		</tr> -->
+	{$focus_mess = count($messages)-3}
+	
+	{loop name="messages"}
+		{$num = ($page-1)*20+$counter+1}
+		<tr class='{if="$counter%2==0"}whitetr{else}graytr{/if} {if="$gUserid == $value.userid"}nforum-mytr{/if} nforum-massagetr'>
+			<td width='180' valign='top' class='forum-author'>
+				<span id='forum_author_{$num}' class='author-link'>
+				<a class='profile-link' href='{$gDomain}/profile/{$value.login}/' title='Профиль {$value.login}'>{if="$value.avatar"}
+					<img src='{$domain}/uploads/avatar/{$value.avatar}' alt='{$value.login}' />
+				{else}
+					<img src='{$domain}/templates/default/images/topmenu-ava.png' alt='{$value.login}' />
+				{/if}
+				{$value.login}
+				</a>
+				</span>
+				<noindex>
+				<!--  class='onoff {if="$value.state==offline"}user-off{/if}' {$value.state}-->
+				<div>
+					<div class='smallgray'>Статус: {$access_names[$value['usergroupid']]}</div>
+				</div>
+				<div>
+					<span class='karma-comment forumkarma' title='Карма пользователя'>{$value.karma}</span><span class='forummess' title='Количество сообщений на форуме'>{$value.forum_mess}</span>
+				</div>
+				</noindex>
+			</td>
+			<td valign='top' class='forum-message'>
+				<div class='smallfont timediv'>
+					{if="$focus_mess==$counter"}<a name="m{$topic.last_dtime}"></a>{/if}
+					#{$num} &nbsp;&nbsp;&nbsp;{$value.ftime}
+					{if="(!empty($gUserid) && $value.userid == $gUserid) || $gUser.usergroupid == 1 || $gUser.usergroupid == 4 || $gUser.usergroupid == 8"}
+					<a class='comment_adm_link relative' title='удалить' href='{$gDomain}/{$component_name}/delmess/{$value.m_id}/'></a>
+					<a class='comment_adm_edit relative' title='редактировать' href='{$gDomain}/{$component_name}/editmess/{$value.m_id}/'></a>
+					{/if}
+					{if="$gUserid"}<a title='Цитировать' class='quote_link'>Цитировать</a>{/if}
+					<div style='display: none;'>
+						<span class='qd'>{$value.dtime}</span>
+						<span class='ql'>{$value.login}</span>
+						<span class='qm'>{$value.qmess}</span>
+					</div>
+				</div>
+				{if="$counter == 0 && $page == 1"}
+				{if="$topic.poll"}
+				{$poll_width = 650}
+				<div class='poll-div'>
+					<b style='font: bold 14px/18px Tahoma;'>Опрос: {$topic.poll}</b> 
+					{if="!($poll_show)"}<strong style='color: #838383;'>(результаты будут известны после закрытия голосования)</strong>{/if}
+					{if="$topic.poll_state == 'close' && $gUser['usergroupid'] == 1"}
+							[<a href='{$domain}/forum/poll_open/?id={$topic.t_id}' class='forum username'>открыть</a>
+						{elseif="$topic.poll_state != 'close' && $gUser['usergroupid'] == 1"}
+							[<a href='{$domain}/forum/poll_close/?id={$topic.t_id}' class='forum username'>закрыть</a>
+						{/if}
+						{if="$topic.userid == $gUserid || $gUser['usergroupid'] == 1"}
+							| <a href='{$domain}/forum/poll_delete/?id={$topic.t_id}' class='forum username'>удалить</a>]
+					{/if}
+					<br />
+					<div style="padding-top: 10px;">
+					<form method='post' action='{$gDomain}/forum/vote/'>
+						  <input type='hidden' name='t_id' value='{$topic.t_id}' />
+							{loop="poll_answers"}
+								{$a_per = intval($value2.count * 100 / $poll_count)}
+								{$a_width = intval($a_per * $poll_width / 100 + 1)}
+								
+								{if="!$user_count && $topic.poll_state != 'close'"}
+									<div id="poll_ans">
+									{if="!$topic.poll_many"}
+										<input type="radio" name="answers[]"  value="{$value2.a_id}"> {$value2.answer}<br />
+									{else}
+										<input type="checkbox" name="answers[]" value="{$value2.a_id}"> {$value2.answer}<br />
+									{/if}
+									</div>
+								{else}
+									
+									{if="in_array($value2.a_id, $user_votes)"}
+										{$pfw = "bold"}
+									{else}
+										{$pfw = ""}
+									{/if}
+									<div class="{$pfw}">{$value2.answer}</div>
+									
+								{/if}
+								{if="$user_count && $poll_show"}
+									<div class='poll-colba'><div class='poll-colba2' style="width:{$a_per}%; "></div><span>{$a_per}%</span><i>{$value2.count}</i></div>
+								{elseif="$topic.poll_show == 3"}
+									<div class='poll-colba' style="height: 8px;"><div class='poll-colba2' style="width: 0%; height: 8px;"></div><span></span></div>
+								{/if}
+							{/loop}
+							{if="$gUser.usergroupid == 1"}{/if}
+							
+							<div class='poll-bottom'>
+								{if="$topic.poll_state != 'close' && !$user_count"}
+									<input type='submit' value='Проголосовать' onclick="return pollCheck()">
+								{/if}
+								<div class='golosov'>Всего проголосовавших: {$poll_count_users}</div>
+							</div>
+					</form>
+					</div>
+				</div>
+				<br />
+				{/if}
+				{/if}
+				<span class='message'>{$value.message}</span>
+				{if="$value.subs"}
+					<span class='foum_subs'><hr /><br clear='both'>{$value.subs}</span>
+				{/if}				
+			</td>
+		</tr>
+	{/loop}
+	</table>
+	<div class='nforum-pagination'>{$pagination}</div>
+	{if="$topic.published==1"}
+	<table  cellpadding='0' cellspacing='0' border='0' width='100%' class='nforum_table_cat yellow'>
+	{if="$gUserid"}
+		<!-- <tr class='cols_description cd_newmes'>
+			<th style='text-align:left !important;'>Новое сообщение</th>
+			<th align='center'></th>
+		</tr> -->
+		<tr class='yellowtr'>
+			<td width='140' valign='top' class='forum-author'>
+				<span class='author-link'>
+				{if="$gUser.avatar"}
+					<img src='{$domain}/uploads/avatar/{$gUser.avatar}' alt='' title='Постов: {$value.mcount}' />
+				{else}
+					<img src='{$domain}/templates/default/images/topmenu-ava.png' alt='' title='Постов: {$value.mcount}' />
+				{/if}
+				{$gUser.login}
+				</span>
+				<!--<a href='{$domain}/user/{$messages[id].user_id}/' class='forum username'></a>-->
+			</td>
+			<td valign='top' class='forum-message'>
+				<noindex>
+				<form method='post' action='{$gDomain}/forum/reply/' onSubmit="return doCheck();">
+				 <input type='hidden' name='t_id' value='{$topic.t_id}' />
+					<div class='smiles'>
+						{loop="smiles"}
+						<a href="javascript:insertBB('topic_ta', '{$value}')"><img src="{$gDomain}/components/{$component_name}/view/smiles/{$key}.gif" alt='{$key}'/></a>
+						{/loop}
+					</div>
+					<div class='bbcodes-div'>
+						<a href="javascript:insertBB('topic_ta', '[b]', '[/b]')" class='bbcodeicon bbbold'></a>
+						<a href="javascript:insertBB('topic_ta', '[i]', '[/i]')" class='bbcodeicon bbitalic'></a>
+						<a href="javascript:insertBB('topic_ta', '[u]', '[/u]')" class='bbcodeicon bbunderline'></a>
+						<a href="javascript:bbPopup('topic_ta', '[img]', '[/img]')" class='bbcodeicon bbimage'></a>
+						<a href="javascript:bbPopupUrl('topic_ta')" class='bbcodeicon bblink'></a>
+						<a href="javascript:insertBB('topic_ta', '[spoiler=Скрытый текст]', '[/spoiler]')" class='bbcodeicon bbspoiler'></a>
+						{if="$gUser['usergroupid'] == 1"}
+							<a class='bbcodeicon bbspoiler bbaudiomem' name="audiomem_block" href="#audiomem_block"></a>
+							<div id="audiomem_block">Аудио мем<input type="text"><div></div><div><input type="buton" id="audiomem_button_ok"></div></div>
+						{/if}
+					</div>
+					<textarea id="topic_ta" name='message'  id="tbMsg" style='width: 435px' rows='10'></textarea>
+					<input type='submit' value='Отправить новое сообщение'>
+				</form>
+				</noindex>
+			</td>
+		
+		</tr>
+	{else}
+		<tr class='yellowtr'>
+			<td valign='top' class='forum-message' style='text-align: center;'>
+				<noindex>
+				<div class='nostyle' style='background-color: transparent; text-align: left;'>Чтобы оставлять сообщения на форуме, вы должны <a href='{$domain}/auth/'>авторизоваться</a> или <a href='{$domain}/reg/'>зарегистрироваться</a></div>
+				</noindex>
+			</td>
+		</tr>
+	{/if}
+	</table>
+	{/if}
+	</div>
+</div>
+<noindex>
+<center style='padding: 6px 0;'><a href="{$gDomain}/forum/">Форум</a>&nbsp;&rarr;&nbsp;<a href="{$gDomain}/forum/cat/{$topic.cat_id}/">{$topic.cat_title}</a>&nbsp;&rarr;&nbsp;{$topic.subj}
+</center>
+</noindex>
+</div>
+
+
+<script type="text/javascript" src="{$gDomain}/components/{$component_name}/view/bb.js"></script>
+<script type="text/javascript">
+	var formAudio = function(s){
+		var str = "";
+		if (s.path && s.title && s.ext && s.ext.length) {
+			str += '<audio controls="controls" preload="none" style="width:80%; height: 40px;">';
+				for (var i=0; i<s.ext.length; i++) {
+					var type = s.type && s.type[i] ? 'type="'+s.type[i]+'"' : '';
+					str += '<source src="'+(s.path+'.'+s.ext[i])+'" '+type+'>';
+				}
+			str += "Ваш браузер сильно устарел и не поддерживает элемент audio";
+			str += '</audio>';
+		}
+		return str;
+	};
+
+	var formButton = function (s){
+		var str = "";
+		if (s.path && s.title && s.ext && s.ext.length) {
+			var isMp3 = 0;
+			for (var i=0; i<s.ext.length; i++) {
+				if (s.ext[i] == "mp3") {
+					isMp3 = 1;
+				}
+			}
+			var path = s.path + "." + (isMp3 ? "mp3": s.ext[0]);
+			str += '<a class="" style="vertical-align: bottom; margin: 0 0 4px 8px;" onClick="audiomem_insert(\''+path+'\')">Вставить код</a><br>';
+			str += s.title;
+		}
+		return str;
+	};
+
+	function audiomem_callback (data){
+		if (data && data.length > 0) {
+			var str = "";
+			for (var i=0, l=data.length; i<l; i++) {
+				var s = formAudio(data[i]);
+				var b = formButton(data[i]);
+				if (s) {
+					str += "<div>"+s + b + "</div>";	
+				}
+			}
+			var el = $("#audiomem_block div");
+			el.html(str);
+		}
+	}
+	function audiomem_insert (path){
+		var el = $("#audiomem_block input");
+		el.val(path);
+	}
+$(".bbaudiomem").leanModal({
+	onShow: function(){
+		$.ajax({url:"http://audiomem.ru/api/get_mems.php?jsoncallback=audiomem_callback", crossDomain:true, dataType: "script"});
+	},
+	onHide: function(){
+		var el = $("#audiomem_block div");
+		el.html("");
+	}
+});
+$("#audiomem_button_ok").click(function(){
+	var el = $("#audiomem_block input");
+	var path = el.val();
+
+	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+});
+function set_quote(login, date, val)
+{
+	var sel = '';
+	if(document.getSelection())
+		sel = getSelection();
+	else if(document.selection)
+		sel = document.selection;
+	else
+		sel =  val;
+	
+	var open  = "[quote login="+login+" date="+date+"]";
+	var close = "[/quote]";
+	
+	
+}
+$(document).ready(function(){
+	$(".quote_link").click(function(){
+		sel   =  $(this).next().find(".qm").text();
+		login =  $(this).next().find(".ql").text();
+		date  =  $(this).next().find(".qd").text();
+		
+		var open  = "[quote login="+login+" date="+date+"]";
+		var close = "[/quote] ";	
+	
+		insertBB('topic_ta', open, close, sel);
+	});
+	
+	$(".spoiler_head").click(function() {
+		$(this).next().toggle();
+		$(this).toggleClass('open');
+	});
+	});
+
+function pollCheck() 
+{
+	if($('#poll_ans input:checked').get(0) == undefined)
+	{
+		alert("Вы не выбрали вариант ответа!");
+		return false;
+	}
+	else
+		return true;
+}
+</script>

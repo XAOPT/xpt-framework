@@ -1,0 +1,56 @@
+<h1>{$LANG.title}</h1>
+
+{$LANG.pattern}: <b class='red'>{$searchtext}</b>
+
+{if="$error=='ok'"}
+<br /><br />
+<b>Для поиска нужно ввести не менее 3-х символов.</b><br />
+<br /><br />
+{else}
+
+{if="count($results)==0"}<br /><br /><b>{$LANG.nothing_found}</b>{/if}
+<br /><br />
+<div class='videos'>
+{loop name="$results"}
+	{if="$counter%5 == 0 && $counter!=0"}</div><div class='videos'>{/if}
+		<!-- <div class="video">			 
+			  <div class="video2">
+				<div class="video-image">
+					<div class="video-param-new">
+						<div title="Рейтинг видео" class="video-rate-new">{$value.rating}</div>
+						<div title="Комментариев" class="video-comments-new">{$value.comments}</div>
+					</div>
+					<a title="{$value.title}" href="{$gDomain}/video/{$value.v_id}/"><img width="170" alt="{$value.title}" src="{$gDomain}/uploads/video/cover/{$value.img}"></a>
+				</div>
+				<div class="video-descr">
+					<strong>{$value.title}</strong><br>
+					<a href='{$gDomain}/series/{$value.tlvl}/' title='Посмотреть всё видео из категории {$value.cat_name}'>{$value.cat_name}</a>
+				</div>
+			  </div>
+		</div>	 -->	
+		<div class='video-new'>
+			{if="isset($value.good) && $value.good"}
+			<img class='newvideo' src='{$gDomain}/templates/default/images/hot-video.png' alt='Рекомендуемое видео!' />
+			{elseif="isset($value.new)"}
+			<img class='newvideo' src='{$gDomain}/templates/default/images/new-new.png' alt='Новое видео!' />
+			{/if}
+			<div class='video2-new'>
+				<div class='video-image-new' style='background: transparent url("{$gDomain}/uploads/video/cover/{$value.img}") 0 0 no-repeat;'>
+					<a class='play' href='{$gDomain}/video/{$value.v_id}_{$value.alias}.html'></a>
+					<div  class='video-param-new'>
+						<noindex>
+						<div class='video-rate-new' title='Рейтинг видео'>{$value.rating}</div>
+						<div class='video-comments-new' title='Комментариев'>{$value.comments}</div>
+						</noindex>
+					</div>
+				</div>
+				<div class='video-descr-new'>
+					<strong>{$value.title}</strong>
+					<a href='{$gDomain}/series/{$value.tlvl}/' title='Посмотреть всё видео из категории {$value.cat_name}'>{$value.cat_name}</a> 
+				</div>
+			</div>
+		</div>
+{/loop}
+</div>
+<div>{$pagination}</div>
+{/if}

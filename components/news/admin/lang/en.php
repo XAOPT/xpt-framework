@@ -1,0 +1,52 @@
+<?php
+$GLOBALS['lang']= array(
+	'new_list_title' => 'News',
+	'add_new_title' => 'Add news',
+	'edit_title' => 'Edit news',
+	'title' => 'Title',
+	'alias' => 'Alias',
+	'date' => 'Date',
+	'published' => 'Published',
+	'photos' => 'Photos',
+	'edit' => 'Edit',
+	'delete' => 'Delete',
+	'add_new' => 'Add news',
+	'save' => 'Save',
+	'small_descr' => 'Small description',
+	'full_descr' => 'Full description',
+	'current_cover' => 'Current cover',
+	'cover_attach' => 'Add cover',
+	'cover_attach_help' => 'Upload image<br /> and choose work area',
+	'cover_attach_size' => 'or biger',
+	'upload' => 'Upload',
+	'attached_title' => 'Attached photos',
+	'more_attaches' => 'Add more photos',
+	'cats_th' => 'Category',
+	'cat_h1_new' => 'Add category',
+	'cat_h1_edit' => 'Edit category',
+	'cat_title' => 'Cat title',
+	'cat_descr' => 'Description',
+	'cat_h1_list' => 'Cat list',
+	'cat_new' => 'Add new category'
+);
+
+$GLOBALS['model'] = array(
+	'wrong_url' => 'Wrong URL',
+	'choose_cat' => '= Выберите категорию =',
+	'no_title' => 'Заголовок новости не указан',
+	'wrong_time' => 'Неверный формат времени',
+	'wrong_date' => 'Неверный формат даты',
+	'news_added' => 'Новость добавлена',
+	'news_edited' => 'Новость отредактирована ен',
+	'news_goto_step_two' => 'Новость сохранена. Переход к загрузке фото',
+	'news_deleted' => 'Новость удалена',
+	'error' => 'Ошибка',
+	'ok' => 'Выполнено',
+	'images_saved' => 'Изображения сохранены, спасибо',
+	'image_deleted' => 'Изображение удалено',
+	'cat_edited' => 'Категория обновлена',
+	'cat_notitle' => 'Не указано имя категории',
+	'cat_added' => 'Категория добавлена',
+	'cat_deleted' => 'Категория удалена'
+);
+?>

@@ -1,0 +1,77 @@
+<div class="page-header">
+{if="!isset($object)"}
+	<h1>Добавление объекта</h1>
+{else}
+	<h1>Редактирование объекта</h1>
+{/if}
+</div>
+
+<form action='/admin/{$component_name}/save/' method='post' class="form-horizontal" role="form"  enctype="multipart/form-data">
+	{if="isset($object.id)"}
+		<input type='hidden' value='{$object.id}' name='id'>
+	{/if}
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Тип документа:</label>
+		<div class="col-sm-4">
+			<select class="form-control input-sm" name='type'>
+				<option value='image' {if="isset($object) && $object.type=='image'"}SELECTED{/if}>Изображение</option>
+				<option value='youtube' {if="isset($object) && $object.type=='youtube'"}SELECTED{/if}>Видео с youtube</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Категория:</label>
+		<div class="col-sm-4">
+			<select class="form-control input-sm" name='cat_id'>
+				{loop="cats"}
+				<option value='{$value.id}' {if="isset($object) && $object.cat_id==$value.id"}SELECTED{/if}>{$value.cat_title}</option>
+				{/loop}
+			</select>
+		</div>
+	</div>
+
+	<div class="form-group youtube_prop">
+		<label class="col-sm-2 control-label">Ссылка:</label>
+		<div class="col-sm-4">
+			<input class="form-control input-sm" type='text' value='{isset="$object.source"}' name='source'>
+		</div>
+	</div>
+
+	<div class="form-group image_prop">
+		<label class="col-sm-2 control-label">Файл:</label>
+		<div class="col-sm-4">
+			<input class="form-control input-sm" type="file" name="img" size="30">
+		</div>
+	</div>
+
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-2">
+			<td><input class="btn btn-flat btn-sm btn-success" type='submit' class="btn btn-flat btn-sm btn-success" value='{:save}'></td>
+		</div>
+	</div>
+</form>
+
+<style>
+.youtube_prop {display: none;}
+</style>
+
+<script>
+$(document).ready(function(){
+	function initEditForm() {
+		var type = $("select[name='type']").val();
+		if (type === 'image') {
+			$(".youtube_prop").hide();
+			$(".image_prop").show();
+		}
+		else if (type === 'youtube') {
+			$(".youtube_prop").show();
+			$(".image_prop").hide();
+		}
+	}
+
+	initEditForm();
+
+	$(document).on('change', "select[name='type']", initEditForm);
+});
+</script>

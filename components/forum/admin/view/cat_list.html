@@ -1,0 +1,27 @@
+<div class="page-header">
+	<h1>Категории страниц</h1>
+</div>
+
+<div class="page-header-menu">
+	<a href="/admin/{$component_name}/editcat/" class="btn btn-flat btn-sm btn-labeled btn-success" id="add-project-button"><span class="btn-label icon fa fa-plus"></span>Добавить новый раздел</a>
+</div>
+
+<table class="table table-bordered table-primary">
+	<tr>
+		<th width='30'>#</th>
+		<th>Название категории</th>
+		<th>Описание</th>
+		<th width='110'>&nbsp;</th>
+	</tr>
+	{loop name="forum_cats"}
+	<tr class={if="$counter%2==0"}'graytr'{else}'lightgraytr'{/if}>
+		<td>{$value.cat_id}</td>
+		<td>{function="str_repeat('&mdash; ', $value.level)"}<a href='/admin/{$component_name}/editcat/?id={$value.cat_id}'>{$value.cat_title}</a></td>
+		<td>{$value.descr} &nbsp;</td>
+		<td>
+			<a class='fa fa-edit' href='/admin/{$component_name}/editcat/?id={$value.cat_id}' title='Редактировать'></a>
+			<a class='fa fa-remove' href='/admin/{$component_name}/catdel/?id={$value.cat_id}' title='Удалить'></a>
+		</td>
+	</tr>
+	{/loop}
+</table>

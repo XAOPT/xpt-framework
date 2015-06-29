@@ -1,0 +1,21 @@
+<script type="text/javascript" src="{$gDomain}/components/{$component_name}/view/bb.js"></script>
+<h1>Редактирование сообщения на форуме</h1>
+
+<form method='post' action='{$gDomain}/forum/update_mess/'>
+	<input type='hidden' name='m_id' value='{$message.m_id}'>
+		<div class='smiles'>
+			{loop="smiles"}
+			<a href="javascript:insertBB('topic_ta', '{$value}')"><img src="{$gDomain}/components/{$component_name}/view/smiles/{$key}.gif" alt='{$key}'/></a>
+			{/loop}
+		</div>
+		<div class='bbcodes-div'>
+			<a href="javascript:insertBB('topic_ta', '[b]', '[/b]')" class='bbcodeicon bbbold'></a>
+			<a href="javascript:insertBB('topic_ta', '[i]', '[/i]')" class='bbcodeicon bbitalic'></a>
+			<a href="javascript:insertBB('topic_ta', '[u]', '[/u]')" class='bbcodeicon bbunderline'></a>
+			<a href="javascript:bbPopup('topic_ta', '[img]', '[/img]')" class='bbcodeicon bbimage'></a>
+			<a href="javascript:bbPopupUrl('topic_ta')" class='bbcodeicon bblink'></a>
+			<a href="javascript:insertBB('topic_ta', '[spoiler=Скрытый текст]', '[/spoiler]')" class='bbcodeicon bbspoiler'></a>
+		</div>
+		<textarea id="topic_ta" name='message'  id="tbMsg" style='width: 630px' rows='10'>{$message.message}</textarea>
+		<input type='submit' value='Сохранить изменения'>
+</form>

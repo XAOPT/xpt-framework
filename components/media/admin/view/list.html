@@ -1,0 +1,27 @@
+<div class="page-header">
+	<h1>Список документов</h1>
+</div>
+
+<table class="table table-bordered table-primary">
+	<tr>
+		<th width='40'>#</th>
+		<th>Тип объекта</th>
+		<th width="120">&nbsp;</th>
+	</tr>
+	{loop name="items"}
+	<tr class={if="$counter%2==0"}'graytr'{else}'lightgraytr'{/if}>
+		<td>{$value.id}</td>
+		<td>
+			{if="$value.type=='image'"}
+				<img src="{$gDomain}/uploads/media/thumbs/{$value.source}" height="40">
+			{else}
+				{$value.type}
+			{/if}
+		</td>
+		<td>
+			<a class='fa fa-edit' href='/admin/{$component_name}/edit/?id={$value.id}' title='Редактировать'></a>
+			<a class='fa fa-remove' href='/admin/{$component_name}/del/?id={$value.id}' title='Удалить'></a>
+		</td>
+	</tr>
+	{/loop}
+</table>

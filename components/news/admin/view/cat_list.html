@@ -1,0 +1,25 @@
+<div class="page-header">
+	<h1>{$LANG.cat_h1_list}</h1>
+</div>
+<div class="page-header-menu">
+	<a class='btn btn-flat btn-sm btn-labeled btn-success' id='absolutelink-add' href="{$gDomain}/admin/{$component_name}/editcat/">{$LANG.cat_new}</a>
+</div>
+<table class="table table-bordered table-primary">
+	<tr>
+		<th width="50">#</th>
+		<th>{$LANG.cat_title}</th>
+		<th>{$LANG.cat_descr}</th>
+		<th width="110">&nbsp;</th>
+	</tr>
+	{loop name="cats"}
+	<tr class={if="$counter%2==0"}'graytr'{else}'lightgraytr'{/if}>
+		<td>{$value.cat_id}</td>
+		<td><a href='{$gDomain}/admin/{$component_name}/?cat_id={$value.cat_id}'>{$value.cat_title}</a></td>
+		<td>{$value.descr}</td>
+		<td>
+			<a class='fa fa-edit' href='{$gDomain}/admin/{$component_name}/editcat/?cat_id={$value.cat_id}' title='{$LANG.edit}'></a>
+			<a class='fa fa-remove' href='{$gDomain}/admin/{$component_name}/catdel/?cat_id={$value.cat_id}' title='{$LANG.delete}'></a>
+		</td>
+	</tr>
+	{/loop}
+</table>

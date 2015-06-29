@@ -1,0 +1,70 @@
+<script type="text/javascript" src="{$gDomain}/components/{$component_name}/view/bb.js"></script>
+<script type="text/javascript" src="{$gDomain}/components/{$component_name}/view/poll.js"></script>
+<script src="{$gDomain}/lib/js/jquery-ui-1.8.14.js" type="text/javascript"></script>
+<link rel="stylesheet" href="{$gDomain}/lib/js/jquery-ui-1.8.14.css" type="text/css" >
+
+<h1>Создание новой темы</h1>
+
+<form action='{$gDomain}/{$component_name}/create_topic/' method='post'>
+<input type='hidden' name='cat_id' value='{$cat_id}'>
+	<table cellpadding='10' cellspacing='0' border='0' width='100%'>
+		<tr>
+			<td><b>Заголовок:</b></td>
+			<td><input id='subjj' type='text' name='subj' value='' style='width: 550px;'></td>
+		</tr>
+		
+		<tr>
+			<td valign='top'><b>Текст:</b><br /><br />
+			<span class="poll_toggle">Добавить опрос</span>
+			</td>
+			<td>
+				<div class='smiles'>
+					{loop="smiles"}
+					<a href="javascript:insertBB('topic_ta', '{$value}')"><img src="{$gDomain}/components/{$component_name}/view/smiles/{$key}.gif" alt='{$key}'/></a>
+					{/loop}
+				</div>
+				<div class='bbcodes-div'>
+					<a href="javascript:insertBB('topic_ta', '[b]', '[/b]')" class='bbcodeicon bbbold'></a>
+					<a href="javascript:insertBB('topic_ta', '[i]', '[/i]')" class='bbcodeicon bbitalic'></a>
+					<a href="javascript:insertBB('topic_ta', '[u]', '[/u]')" class='bbcodeicon bbunderline'></a>
+					<a href="javascript:bbPopup('topic_ta', '[img]', '[/img]')" class='bbcodeicon bbimage'></a>
+					<a href="javascript:bbPopupUrl('topic_ta')" class='bbcodeicon bblink'></a>
+					<a href="javascript:insertBB('topic_ta', '[spoiler=Скрытый текст]', '[/spoiler]')" class='bbcodeicon bbspoiler'></a>
+				</div>
+				<textarea id="topic_ta" name='content' style='width: 430px' rows='10'>{isset="$message.message"}</textarea>
+				
+			</td>
+		</tr>
+				
+		<tr id="poll_menu">
+			<td valign="top"></td>
+			<td>
+			 <div style="display:none">			
+			  <b>Текст опроса:</b><br/>
+			  	<input type='text' name='poll' id='poll' value='' style='width: 550px;'><br/>
+				<input type='checkbox' name='poll_many' value='true'>разрешить несколько вариантов ответа<br/><br/>
+			   <b>Когда показывать результаты опроса пользователям?</b><br/>
+			   <input type="radio" name="poll_show" value="1" checked> всегда<br/>
+			   <input type="radio" name="poll_show" value="3"> после закрытия опроса<br/><br/>
+			 <b>Варианты ответа:</b><br/>
+			  <div id="answers">
+			
+				<input type='text' name='answer[]' style='width: 280px;'><br />
+				<input type='text' name='answer[]' style='width: 280px;'><br />
+				<input type='text' name='answer[]' style='width: 280px;'><br />
+				<input type='text' name='answer[]' style='width: 280px;'><br />
+				<input type='text' name='answer[]' style='width: 280px;'><br />
+			
+			  </div>
+			  <span id="add_answer">Добавить ещё один вариант ответа</span>
+			 </div>
+		   </td>
+		</tr>
+		
+		<tr>
+		 <td></td>
+		 <td><input type='submit' style='padding-left: 50px; padding-right: 50px;' value='Создать тему'  onclick="return messCheck()"></td>
+		</tr>
+		
+	</table>
+</form>

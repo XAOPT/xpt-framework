@@ -1,0 +1,24 @@
+<?php
+
+return array(
+	'add_user' => 'Add user',
+	'user_list' => 'Users list',
+	'login' => 'Login',
+
+	// edit_user
+	'user_addition' => 'Add user',
+	'password' => 'Password',
+	'new_password' => 'New password',
+	'user_group' => 'User group',
+	'email' => 'E-mail',
+
+	// groups_list
+	'add_user_group' => 'Add group',
+	'user_groups_list' => 'Users groups list',
+
+	// edit_group
+	'user_group_edition' => 'Edit user group',
+	'components_access' => 'Components acces',
+	'projects_access' => 'Projects access'
+);
+?>

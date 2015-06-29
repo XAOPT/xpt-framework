@@ -1,0 +1,46 @@
+<div class='newsfull'>
+	<h2>{$news.title}</h2>
+	<div class='newsfull-info'>
+		<div class='newsnewsfull-date left-block'>
+				<i class="fa fa-calendar"></i>
+				{function="date('d.m.Y H:m', strtotime($news.dtime))"}
+		</div>
+		<div class='newsnewsfull-comments left-block'><i class="fa fa-comments"></i> {$news.coms}</div>
+		{if="guser::_hasAccess($component_name)"}
+			<a href='{$gADomain}/{$component_name}/edit/?id={$news.id}'><i class="fa fa-edit"></i></a>
+		{/if}
+	</div>
+
+	<div class='image left-block'>
+		<img src="{$gDefaultDomain}/uploads/news/{$news.img}">
+	</div>
+
+	<div class='text left-block'>
+		{$news.text}
+	</div>
+	<div class='comments'>
+		{isset="$comments"}
+	</div>
+</div>
+<div class="clearfix"></div>
+<noindex>
+<div class='newsother'>
+	<div class="newsother-module left-block">
+		<span class="newsother-head">ДРУГИЕ НОВОСТИ</span>
+		<table class="newsother-items">
+			{loop name="dop_news"}
+			{if="$value.id != $news.id"}
+			<tr>
+				<td class="newsother-created">{function="date('d', strtotime($value.dtime))"} {$value.word_month}</td>
+				<td class="newsother-title"><a href="{$gDomain}/{$component_name}/{$value.id}/">{$value.title}</a></td>
+				<td class="newsother-comments"><i class="fa fa-comments"></i> {$value.coms}</td>
+			</tr>
+			{/if}
+			{/loop}
+		</table>
+	</div>
+	<div class="right-block">
+		{function="master_module('social_share')"}
+	</div>
+</div>
+</noindex>

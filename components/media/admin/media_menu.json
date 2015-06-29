@@ -1,0 +1,16 @@
+{
+	"icon":"fa-photo",
+	"title":"Медиа",
+	"actions":[
+		{
+			"href": "/cats/",
+			"title": "Категории",
+			"access": ["admin"]
+		},
+		{
+			"href": "/edit/",
+			"title": "Добавить объект",
+			"access": ["create"]
+		}
+	]
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=10; IE=9; IE=8; IE=7; IE=EDGE" />
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="{$gDomain}/lib/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{$gDomain}/templates/admin/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{$gDomain}/templates/admin/css/dropzone.css">
+    <link rel="stylesheet" href="{$gDomain}/templates/admin/css/jquery.growl.css">
+    <link rel="stylesheet" href="{$gDomain}/lib/css/animate.css">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/menu.less">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/content_wrapper.less">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/navbar.less">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/admin.less">
+    <link rel="stylesheet/less" href="{$gDomain}/templates/admin/css/signin.less">
+
+    <script src="{$gDomain}/lib/js/jquery.min.js"></script>
+    <script src="{$gDomain}/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{$gDomain}/lib/js/less.min.js"></script>
+    <script src="{$gDomain}/lib/bootstrap/js/bootstrap-dialog.js"></script>
+    <script src="{$gDomain}/templates/admin/js/dropzone.js"></script>
+    <script src="{$gDomain}/templates/admin/js/pjax.js"></script>
+    <script src="{$gDomain}/templates/admin/js/jquery.growl.js"></script>
+    <script src="{$gDomain}/templates/admin/js/jquery.libs.js"></script>
+    <script src="{$gDomain}/templates/admin/js/jquery-ui-1.10.3.js"></script>
+    <script src="{$gDomain}/templates/admin/js/template_scripts.js"></script>
+
+    <link href="{$gDomain}/templates/admin/css/open-sans.css" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="/lib/editors/summernote/codemirror.css" />
+    <script type="text/javascript" src="/lib/editors/summernote/codemirror.js"></script>
+    <script type="text/javascript" src="/lib/editors/summernote/formatting.min.js"></script>
+
+    <link href="/lib/editors/summernote/summernote.css" rel="stylesheet">
+    <script type="text/javascript" src="/lib/editors/summernote/summernote.min.js"></script>
+
+</head>
+
+<body class="page-signin">
+
+	<div id="page-signin-bg">
+		<div class="overlay"></div>
+		<img src="{$gDomain}templates/admin/img/signin-bg.jpg" alt="">
+	</div>
+
+	<div class="signin-container">
+		<!-- Левая часть -->
+		<div class="signin-info">
+			<span href="index.php" class="logo">
+			</span>
+			<div class="slogan">
+			</div>
+			<ul>
+				<li><i class="fa fa-sitemap signin-icon"></i> Чётко</li>
+				<li><i class="fa fa-file-text-o signin-icon"></i> По делу</li>
+				<li><i class="fa fa-outdent signin-icon"></i> На коленке</li>
+				<li><i class="fa fa-heart signin-icon"></i> Без смазки</li>
+			</ul>
+		</div>
+
+		<!-- Правая часть -->
+		<div class="signin-form">
+
+			<!-- Форма -->
+			<div class="signin-text">
+				<span>Войдите в аккаунт</span>
+			</div>
+
+			<div class='signin_error bg-danger'>hello world</div>
+
+			<form method='POST' action="{$gADomain}/">
+
+				<div class="form-group w-icon">
+					<input type="text" name="login" class="form-control input-lg" placeholder="Почта">
+					<span class="fa fa-user signin-form-icon"></span>
+				</div>
+
+				<div class="form-group w-icon">
+					<input type="password" name="pwd" class="form-control input-lg" placeholder="Пароль">
+					<span class="fa fa-lock signin-form-icon"></span>
+				</div>
+
+				<div class="form-actions">
+					<input type="submit" value="Войти" class="signin-submit signin-btn bg-primary">
+					<!-- <a href="#" class="forgot-password" id="forgot-password-link">Забыли пароль?</a> -->
+				</div>
+			</form>
+			<!-- / Форма -->
+
+			<div class="signin-with">
+				<!-- Facebook -->
+				<!-- <a class="signin-with-btn" onclick="fb_login();">Войти через <span>Facebook</span></a> -->
+			</div>
+
+			<!-- Восстановление пароля -->
+			<div class="password-reset-form" id="password-reset-form">
+				<!-- <div class="header">
+					<div class="signin-text">
+						<span>Восстановление пароля</span>
+						<div class="close">&times;</div>
+					</div>
+				</div -->>
+
+				<!-- Форма -->
+				<!-- <form action="index.php" id="password-reset-form_id">
+					<div class="form-group w-icon">
+						<input type="text" name="password_reset_email" id="p_email_id" class="form-control input-lg" placeholder="Укажите свой email">
+						<span class="fa fa-envelope signin-form-icon"></span>
+					</div>
+
+					<div class="form-actions">
+						<input type="submit" value="Отправить инструкции" class="signin-btn bg-primary">
+					</div>
+				</form> -->
+				<!-- / Форма -->
+			</div>
+			<!-- / Восстановление пароля -->
+		</div>
+	</div>
+
+<script>
+$(document).ready(function(){
+	// Изменение размера фоновой картинки
+	// пока картинки не хватает по ширине - масштабируем по ширине, когда начинает нехватать по высоте - по высоте
+	var ph = $('#page-signin-bg'),
+	img = ph.find('> img');
+
+	function resize_bg() {
+		img.attr('style', '');
+		var img_height = img.height();
+		if (img_height > 0 && img_height < ph.height()) {
+			img.css({
+				height: '100%',
+				width: 'auto'
+			});
+		}
+		else if (img_height == 0) {
+			setTimeout(resize_bg, 20);
+		}
+		else {
+			img.css({
+				width: '100%'
+			});
+		}
+	}
+
+	resize_bg();
+
+	$(window).on('resize', resize_bg);
+
+	$("input[name='signin_username'], input[name='signin_password']").keypress(function(e) {
+    	if(e.which == 13) {
+        	$('.signin-submit').click();
+    	}
+	});
+});
+</script>
+
+</body>
+</html>

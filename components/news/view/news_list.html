@@ -1,0 +1,23 @@
+<div class="news-module">
+	<h2>новости</h2>
+	<div class="items">
+		{loop name="news"}
+			<div class="item">
+				<div class="image">
+					<a href="{$gDomain}/news/{$value.id}/"><img src="{$gDomain}/uploads/news/{$value.img}"></a>
+				</div>
+				<div class="info">
+					<div class="created">{$value.date}</div>
+					<div class="comments">
+						<div class="icon icon-comments"></div>{$value.coms}
+					</div>
+				</div>
+				<div class="title">
+					<a href="{$gDomain}/news/{$value.id}/">{$value.title}</a>
+				</div>
+			</div>
+		{/loop}
+	</div>
+</div>
+<div class="clearfix"></div>
+{isset="$pagination"}

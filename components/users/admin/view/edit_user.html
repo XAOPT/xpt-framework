@@ -1,0 +1,33 @@
+<div class="page-header">
+	<h1>{:user_addition}</h1>
+</div>
+
+<form action='{$gADomain}/{$component_name}/save/' method='post'>
+{if="isset($user.userid)"}
+	<input type='hidden' name='userid' value='{$user.userid}'>
+{/if}
+
+<dl class="dl-horizontal col-xs-3">
+	<dt>{:email}:</dt>
+	<dd><input name='email' type='text' value='{isset="$user.email"}' class="form-control input-sm"></dd>
+
+	<dt>{:password}:</dt>
+	<dd><input name='password' type='text' class="form-control input-sm"></dd>
+
+	<dt>{:new_password}:</dt>
+	<dd><input name='password' type='text' class="form-control input-sm"></dd>
+
+	<dt>Имя:</dt>
+	<dd><input name='realname' type='text' value='{isset="$user.realname"}' class="form-control input-sm"></dd>
+
+	<dt>{:user_group}:</dt>
+	<dd>
+		{loop="groups"}
+		<input type='checkbox' name='groups[{$value.ugid}]' {if="isset($user) && in_array($value.ugid, $user.groups)"}CHECKED{/if}> {$value.title}<br />
+		{/loop}
+	</dd>
+
+	<dt></dt>
+	<dd><input type='submit' value='{:save}' class="btn btn-sm btn-success"></dd>
+</dl>
+</form>

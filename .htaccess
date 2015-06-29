@@ -1,0 +1,24 @@
+AddDefaultCharset utf-8
+php_flag magic_quotes_gpc Off
+
+Options +FollowSymLinks
+RewriteEngine On
+#RewriteCond %{HTTP_HOST} ^www.domain\.ru$ [NC]
+#RewriteRule ^(.*)$ http://domain.ru/$1 [R=301,L]
+
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !(.*)/$
+RewriteCond %{REQUEST_URI} !\.(?:html|gif|jpg|jpeg|png|css|js|less)$
+RewriteRule ^(.*?)$ index.php [QSA,L]
+
+RewriteRule ^admin/(.*?)$ index.php?admin=true [QSA,L]
+
+#RewriteRule ^(\w*)\.html$ /index.php?comp=static&do=$1 [QSA,L]
+#RewriteRule ^reg/(.*)$ index.php?comp=login [QSA,L]
+#RewriteRule ^auth/(\w*)(\/?)$ index.php?comp=login&do=vauth&p=$1 [QSA,L]
+#RewriteRule ^forum/cat/(\d*)/$ index.php?comp=forum&do=cat&cat_id=$1 [QSA,L]
+#RewriteRule ^ajax/(.*)$ ajax.php?ajax=true [QSA,L]
+#RewriteRule ^admin/ajax/(.*)/$ ajax.php?admin=true&ajax=true [QSA,L]
+
+RewriteRule ^(.*)\/$ /index.php [QSA,L]

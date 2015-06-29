@@ -1,0 +1,14 @@
+{include="default/include/media_header"}
+<h2>{$cat.cat_title}</h2>
+<div class="media-items">
+	{loop name="items"}
+		{if="$value.type == 'youtube'"}
+		<a class="youtube" href="//www.youtube.com/embed/{$value.source}?rel=0&amp;wmode=transparent">
+			<img src="{$value.img}" width="240">
+			<div class="icon-player"></div>
+		</a>
+		{elseif="$value.type == 'image'"}
+		<a class="media-image" rel="media-image" href="{$gDomain}/uploads/media/{$value.source}"><img src="{$gDomain}/uploads/media/thumbs/{$value.source}" width="240"></a>
+		{/if}
+	{/loop}
+</div>

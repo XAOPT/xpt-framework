@@ -1,0 +1,363 @@
+@import "functions";
+
+/* ------------ верхняя панель навигации ------------ */
+#main-navbar {
+	border: none;
+	border-radius: 0;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0 !important;
+	min-height: 46px;
+	z-index: 1030;
+
+	-webkit-box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05);
+	box-shadow: 0 2px 2px rgba(0,0,0,.05), 0 1px 0 rgba(0,0,0,.05);
+
+	a {
+		color: #555;
+	}
+
+	#main-menu-toggle {
+		background: 0 0;
+		border: none;
+		display: block;
+		font-size: 11px;
+		margin: 0;
+		outline: 0!important;
+		padding: 0;
+		position: absolute;
+		top: 0!important;
+		left: 0;
+		text-align: center;
+		z-index: 1033;
+
+		height: 46px;
+		width: 56px;
+		overflow: hidden;
+		z-index: 1034;
+	}
+
+	.dropdown-menu {
+		background: #fff;
+		padding: 0px;
+		border: 2px solid #ccc;
+		box-shadow: none;
+
+		li {
+			border: none;
+
+			a {
+				padding: 5px 18px;
+				line-height: 32px !important;
+				margin: 0px;
+				color: #555;
+				font-size: 13px;
+			}
+		}
+	}
+
+	.widget-notifications {
+		width: 300px;
+
+		.notifications-list {
+			overflow: hidden;
+			position: relative;
+			width: auto;
+			height: 250px;
+
+			.notification {
+				position: relative;
+				padding: 7px 12px;
+				border-bottom: #f1f1f1 solid 1px;
+
+				.notification-title {
+					font-size: 11px;
+					font-weight: 700;
+					padding-bottom: 1px;
+				}
+
+				.notification-description {
+					font-size: 11px;
+					color: #999;
+					display: block;
+					margin-right: 35px;
+				}
+
+				.notification-ago {
+					font-size: 11px;
+					font-style: italic;
+					color: #bbb;
+				}
+
+				.notification-icon {
+					width: 26px;
+					height: 26px;
+					line-height: 26px;
+					text-align: center;
+					border-radius: 2px;
+					position: absolute;
+					top: 50%;
+					right: 0;
+					margin: -13px 12px 0 0;
+					font-size: 14px;
+				}
+			}
+		}
+
+		.notifications-link {
+			text-align: center;
+			padding: 8px 0!important;
+			border-top: 1px solid #e4e4e4;
+			display: block;
+			text-decoration: none!important;
+			font-size: 10px;
+			font-weight: 800;
+			color: #999;
+			line-height: 18px!important;
+			height: auto!important;
+
+			&:hover {
+				background: #f1f1f1;
+			}
+		}
+	}
+
+	/* выпадающий блок с сообщениями от пользователей */
+	.widget-messages-alt {
+		.messages-list {
+			overflow: hidden;
+			position: relative;
+
+			.message {
+				position: relative;
+				padding: 10px 12px;
+
+				border-bottom: #f1f1f1 solid 1px;
+
+				.message-avatar {
+					display: block;
+					width: 32px;
+					height: 32px;
+					position: absolute;
+					border-radius: 999999px;
+					top: 50%;
+					margin-top: -16px;
+					left: 12px;
+				}
+
+				.message-subject {
+					display: block;
+					padding-left: 42px;
+					margin-bottom: 2px;
+					width: 100%;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+
+					line-height: 17px!important;
+					font-size: 13px;
+				}
+
+				.message-description {
+					display: block;
+					padding-left: 42px;
+					font-size: 11px;
+					color: #aaa;
+					height: auto!important;
+					line-height: 17px!important;
+
+					a {
+						line-height: 17px!important;
+					}
+				}
+			}
+		}
+
+		.messages-link {
+			text-align: center;
+			padding: 8px 0!important;
+			border-top: 1px solid #e4e4e4;
+			display: block;
+			text-decoration: none!important;
+			font-size: 10px;
+			font-weight: 800;
+			color: #999;
+			line-height: 18px!important;
+			height: auto!important;
+
+			&:hover {
+				background: #f1f1f1;
+			}
+		}
+	}
+
+	.navbar-inner {
+		min-height: 46px;
+		width: 100%;
+		position: relative;
+		left: 0;
+
+		.navbar-header {
+			padding: 0;
+			position: relative;
+			width: 240px;
+			z-index: 1032;
+			background: #fff;
+			float: left;
+			padding-left: 56px!important;
+
+			a {
+				text-transform: uppercase;
+				font-size: 11px;
+				font-weight: 600;
+				color: #555;
+			}
+
+			.navbar-brand {
+				display: inline-block;
+				float: none;
+				line-height: 46px;
+				height: auto!important;
+				padding: 0 0 0 14px;
+
+				div {
+					display: inline-block;
+					position: relative;
+					margin-right: 4px;
+					top: 4px;
+
+					img {
+						height: 18px;
+						width: 18px;
+						display: block;
+					}
+				}
+			}
+		}
+
+		.navbar-collapse {
+			background: #fff;
+			border: none;
+
+			.navbar-nav {
+				border-left: 1px solid #f1f1f1;
+				margin-right: 10px;
+
+				a {
+					line-height: 46px;
+					padding-top: 0px;
+					padding-bottom: 0px;
+				}
+
+				&>li {
+					border-right: 1px solid #f1f1f1;
+				}
+			}
+		}
+
+		.right {
+			.pull-right {
+				.dropdown-menu {
+					float: right;
+					left: auto;
+					right: 0;
+				}
+			}
+
+			li {
+				border-left: 1px solid #f1f1f1;
+			}
+
+			.navbar-nav>li {
+				border-right: none;
+			}
+		}
+
+		.navbar-form .form-control {
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			-webkit-transition: background .2s;
+			transition: background .2s;
+
+			height: 30px;
+			line-height: 20px;
+			margin-top: 8px;
+			padding-bottom: 5px;
+			padding-top: 5px;
+			width: 150px;
+			margin: 0px;
+
+			background: #f8f8f8;
+			border: none;
+			color: #999;
+		}
+
+		.nav-icon-btn {
+
+			&>a {
+				line-height: 46px;
+				padding-top: 0;
+				padding-bottom: 0;
+				height: 46px;
+
+				.transition02s;
+
+				&:hover {
+					background: #f8f8f8;
+					border-top: none !important;
+					border-bottom: none !important;
+				}
+
+				.nav-icon {
+					display: inline-block;
+					line-height: 46px;
+				}
+
+				.small-screen-text {
+					display: none;
+				}
+
+				.badge,
+				.label {
+					font-size: 8px;
+					padding: 0 2px;
+					line-height: 10px;
+					position: absolute;
+					display: block;
+					right: 10px;
+					top: 11px;
+				}
+			}
+
+
+			&.nav-icon-btn-success {
+				.label {
+					background: #5ebd5e;
+				}
+			}
+
+			&.nav-icon-btn-danger {
+				.label {
+					background: #e66454;
+				}
+			}
+		}
+
+		.user-menu {
+			&>img{
+				border-radius: 25px;
+				display: inline-block;
+				height: 25px;
+				width: 25px;
+				margin: -2px 0 0 0;
+			}
+
+			&>span {
+				margin-left: 7px;
+			}
+		}
+	}
+
+
+}

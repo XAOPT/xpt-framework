@@ -1,0 +1,21 @@
+{
+	"icon":"fa-users",
+	"title":"Новости",
+	"actions":[
+		{
+			"href": "/",
+			"title": "Список новостей",
+			"access": ["edit_my","edit_all"]
+		},
+		{
+			"href":"/add/",
+			"title":"Добавить новость",
+			"access":["edit_my","edit_all"]
+		},
+		{
+			"href":"/cats/",
+			"title":"Категории",
+			"access":[]
+		}
+	]
+}

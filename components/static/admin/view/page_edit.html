@@ -1,0 +1,60 @@
+<div class="page-header">
+{if="isset($page.id)"}
+	<h1>Редактирование страницы</h1>
+{else}
+	<h1>Загрузка страницы</h1>
+{/if}
+</div>
+
+
+<form method='post' action='{$gDomain}/admin/{$component_name}/pagesave/' class="form-horizontal" role="form">
+	{if="isset($page.id)"}
+		<input type='hidden' name='id' value='{$page.id}'>
+	{/if}
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Категория:</label>
+		<div class="col-sm-8">
+			{$cat_select}
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="col-sm-2 control-label">Алиас:</label>
+		<div class="col-sm-8"><input class="form-control input-sm" type='text' name='alias' value='{isset="$page.alias"}'></div>
+	</div>
+
+	<div role="tabpanel">
+		<ul class="nav nav-tabs" role="tablist">
+		{loop="available_locale"}
+			<li {if="$counter==0"}class="active"{/if}><a href="#{$value}" aria-controls="{$value}" role="tab" data-toggle="tab">{$value}</a></li>
+		{/loop}
+		</ul>
+
+		<div class="tab-content tab-content-bordered">
+		{loop="available_locale"}
+			{$lang=$value}
+			<div role="tabpanel" class="tab-pane {if="$counter==0"}active{/if}" id="{$lang}">
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Заголовок страницы:</label>
+					<div class="col-sm-3"><input class="form-control input-sm" type='text' name='title_{$lang}' value='{isset="$translations[$lang]['title']"}'></div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Description:</label>
+					<div class="col-sm-3"><input class="form-control input-sm" type='text' name='description_{$lang}' value='{isset="$translations[$lang]['description']"}'></div>
+					<label class="col-sm-2 control-label">Keywords:</label>
+					<div class="col-sm-3"><input class="form-control input-sm" type='text' name='keywords_{$lang}' value='{isset="$translations[$lang]['keywords']"}'></div>
+				</div>
+
+				<textarea class='editor form-control' name='html_{$lang}'>{isset="$translations[$lang]['html']"}</textarea>
+			</div>
+		{/loop}
+		</div>
+	</div>
+
+	<input type="submit" class="btn btn-flat btn-sm btn-success" value="Сохранить">
+	<input type="submit" class="btn btn-flat btn-sm btn-primary" value="Сохранить и продолжить редактирование">
+</form>
+
+{function="init_editor()"}

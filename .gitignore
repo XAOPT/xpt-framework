@@ -1,0 +1,5 @@
+include/inc_config_development.php
+cache
+uploads/news/temp/
+uploads/news/*.*
+uploads/*

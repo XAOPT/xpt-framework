@@ -1,0 +1,131 @@
+.table {
+	a.fa {
+		width: 26px;
+		height: 26px;
+		line-height: 26px;
+		text-align: center;
+		border-radius: 2px;
+		font-size: 18px;
+		color: #fff;
+		background: #98a3a4;
+		text-decoration: none;
+		margin: 0px 7px;
+
+		&.fa-remove {
+			background: #e66454;
+		}
+
+		&.fa-edit {
+			background: #5ebd5e;
+		}
+
+		&.fa-eye {
+			background: #f4b04f;
+		}
+	}
+
+}
+
+.tab-content {
+	padding: 15px 0;
+
+	&.tab-content-bordered {
+		border: 1px solid #d7d7d7;
+		border-top: none;
+		padding-left: 15px;
+		padding-right: 15px;
+		border-bottom-right-radius: 2px;
+		border-bottom-left-radius: 2px;
+		margin: 0 0 15px 0;
+	}
+}
+
+.nav-tabs li.active {
+	&>a,
+	&>a:focus,
+	&>a:hover {
+		border: none;
+		color: #fff;
+		background: #1d89cf;
+		border-bottom: 2px solid #1a7ab9;
+	}
+}
+
+
+
+.stat-panel {
+	background: #fff;
+	border-radius: 2px;
+	display: table;
+	margin-bottom: 22px;
+	overflow: hidden;
+	position: relative;
+	table-layout: fixed!important;
+	width: 100%;
+}
+.stat-cell, .stat-row {
+	float: none!important;
+}
+.stat-cell {
+	display: table-cell!important;
+	overflow: hidden;
+	padding: 20px;
+	position: relative;
+
+	.bg-icon {
+		bottom: 0;
+		color: rgba(0,0,0,.05);
+		font-size: 100px;
+		line-height: 100px;
+		height: 100px;
+		position: absolute;
+		right: 0;
+		text-align: center;
+		width: 120px;
+	}
+
+}
+.stat-row {
+	display: table-row!important;
+	width: 100%;
+}
+.bg-danger {
+  background: #e66454!important;
+}
+.bg-pa-purple {
+  background: #857198!important;
+  color: #fff;
+}
+.bg-danger, .bg-danger a, .bg-danger a:focus, .bg-danger:active, .bg-danger:focus, .bg-danger:hover {
+  color: #fff;
+}
+
+.text-xlg {
+	font-size: 30px;
+}
+.text-bg {
+	font-size: 17px;
+}
+.text-sm {
+	font-size: 12px;
+}
+.text-xs {
+	font-size: 11px;
+}
+.stat-counters {
+	border-bottom: 1px solid #e4e4e4;
+	border-top: 1px solid #e4e4e4;
+	display: table;
+	overflow: hidden;
+	table-layout: fixed;
+	width: 100%;
+}
+.bordered {
+	border: 1px solid #e4e4e4;
+}
+.theme-default .bordered, .theme-default .panel, .theme-default .table, .theme-default hr {
+	border-color: #e2e2e2;
+}
+.stat-counters>.stat-cell+.stat-cell {
+	border-left: 1px solid #e4e4e4;
+}

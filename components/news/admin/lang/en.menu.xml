@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<document>
+	<icon name='icon-news.png'>News</icon>
+	<a href='/'>News list</a>
+	<a href='/add/' >Add news</a>
+	<a href='/cats/'>Cat list</a>
+</document>

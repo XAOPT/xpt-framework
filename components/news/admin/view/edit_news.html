@@ -1,0 +1,192 @@
+<script type="text/javascript" src="{$gDomain}/components/{$component_name}/admin/view/jquery.form.js"></script>
+<script type="text/javascript" src="{$gDomain}/components/{$component_name}/admin/view/imgareaselect/jquery.imgareaselect.pack.js" type="text/javascript"></script>
+<link rel="stylesheet" href="{$gDomain}/components/{$component_name}/admin/view/imgareaselect/imgareaselect-default.css" type="text/css">
+
+
+<div class="page-header">
+	{if="!isset($news.id)"}
+		<h1>{$LANG.add_new_title}</h1>
+	{else}
+		<h1>{$LANG.edit_title}</h1>
+	{/if}
+</div>
+
+<div class="col-sm-8">
+<form action='{$gADomain}/{$component_name}/save/' name='news_form' method='POST' class="form-horizontal" role="form">
+<input type='hidden' name='id' value='{isset="$news.id"}'>
+<input type='hidden' name='step' value=''>
+<input type='hidden' name='x1'>
+<input type='hidden' name='y1'>
+<input type='hidden' name='x2'>
+<input type='hidden' name='y2'>
+<input type='hidden' name='file_name' id='file_name' value=''>
+<input type='hidden' name='turn' value='0'>
+	{if="$config.enable_cats"}
+	<div class="form-group">
+		<label class="col-sm-2 control-label">{$LANG.cats_th}:</label>
+		<div class="col-sm-6">
+			{$cat_select}
+		</div>
+	</div>
+	{/if}
+
+	{if="guser::_hasAccess($component_name, 'alias')"}
+	<div class="form-group">
+		<label class="col-sm-2 control-label" for="alias">{$LANG.alias}:</label>
+		<div class="col-sm-6"><input class="form-control input-sm" type='text' name='alias' id="alias" value='{isset="$news.alias"}' size='42' class='text'></div>
+	</div>
+	{/if}
+
+	<div role="tabpanel">
+		<ul class="nav nav-tabs" role="tablist">
+		{loop="available_locale"}
+			<li {if="$counter==0"}class="active"{/if}><a href="#{$value}" aria-controls="{$value}" role="tab" data-toggle="tab">{$value}</a></li>
+		{/loop}
+		</ul>
+
+		<div class="tab-content tab-content-bordered">
+		{loop="available_locale"}
+			{$lang=$value}
+			<div role="tabpanel" class="tab-pane {if="$counter==0"}active{/if}" id="{$lang}">
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{$LANG.title}:</label>
+					<div class="col-sm-6"><input class="form-control input-sm" name='title_{$lang}' type='text' value='{isset="$translations[$lang]['title']"}'></div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{$LANG.small_descr}:</label>
+					<div class="col-sm-10"><textarea class="form-control" name='smalltext_{$lang}'>{isset="$translations[$lang]['smalltext']"}</textarea></div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-sm-2 control-label">{$LANG.full_descr}:</label>
+					<div class="col-sm-10"><textarea class='editor' name='text_{$lang}'>{isset="$translations[$lang]['text']"}</textarea></div>
+				</div>
+			</div>
+		{/loop}
+		</div>
+	</div>
+
+	{if="!$config.editable_cover && $config.cover"}
+		<div class="form-group">
+			<label for="img"><b>{$LANG.cover_attach}:</b><br /><span class='descr'>225х225 {$LANG.cover_attach_size}</span></label>
+			<textarea  id='content' name='text'>{isset="$news.text"}</textarea>
+			<input class='editor form-control' type="file" name="img" size="30">
+		</div>
+	{/if}
+	<div class="form-group">
+		<label for="datepicker" class="label-control col-sm-2">{$LANG.date}:</label>
+		<div class="col-sm-5">
+			<input class="form-control input-sm" name='date' type='text' value='{$news.date}' id="datepicker">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="time" class="label-control col-sm-2">Время:</label>
+		<div class="col-sm-5">
+			<input class="form-control input-sm" name='time' type='text' value='{$news.time}' id='time'>
+		</div>
+	</div>
+	<div class="clearfix"></div>
+
+{if="$config.editable_cover && $config.cover"}
+	</form>
+
+	<form action='{$gADomain}/{$component_name}/file_preview/?_pjax=true' id='file_upload' method='post' enctype="multipart/form-data" class="form-horizontal" role='form' data-pjax="false">
+		{if="isset($news.img)"}
+		<div class="form-group">
+			<label><b>{$LANG.current_cover}:</b></label>
+			<img src='{$gDomain}/uploads/{$component_name}/{$news.img}'>
+		</div>
+		{/if}
+
+		<div class="form-group">
+			<label for="img"><b>{$LANG.cover_attach}:</b></label>
+			<input type="file" id='zcxzxc' name="img" size="30"> <input type='submit' value='{$LANG.upload}'>
+			<img id='img_loader' src='{$gDomain}/components/{$component_name}/admin/view/ajax_loader.gif' style='display: none'>
+			<div id='img_preview'></div>
+		</div>
+	</form>
+
+	<input class="btn btn-flat btn-sm btn-success" type='button' onClick='CheckForm()' value='{$LANG.save}'>
+	<input class="btn btn-flat btn-sm btn-primary" type="button" onClick='$("input[name=turn]").val(1); CheckForm();' value="Сохранить и продолжить редактирование">&nbsp;&nbsp;&nbsp;
+	<a href="{$gDomain}/news/{$news.alias}/" class="btn btn-flat btn-sm btn-warning" target="_blank">Перейти на страницу новости</a>
+	{if="!isset($news.id)"}
+		<!-- <td><input type='button' onClick='CheckForm(2)' value='Перейти к загрузке фото'></td> -->
+	{/if}
+{else}
+
+	<input class="btn btn-flat btn-sm btn-success" type='submit' value='Сохранить'>
+
+	</form>
+{/if}
+</div>
+{if="$config.multi_files"}
+	<div style='padding: 0px 10px 10px 10px; background: #ddd; margin: 10px 0 20px 0'>
+		<h2>{$LANG.attached_title}</h2>
+		<a href="{$gDomain}/{$component_name}/batch/?id={$news.id}">{$LANG.more_attaches}</a><br /><br />
+		{loop name="pics"}
+		<img src='{$gDomain}/uploads/{$component_name}/thumb/{$value.id}/{$value.image}' width='100'>
+		<a class='iconbutton delete' href='{$gDomain}/admin/{$component_name}/delete_photo/?image_id={$value.id}' title='{$LANG.delete}'></a>
+		{/loop}
+	</div>
+{/if}
+
+<script type="text/javascript">
+
+
+	{if="$config.editable_cover"}
+		function CheckForm(mod)
+		{
+			{if="!isset($news.id)"}
+				if ($("#file_name").val())
+				{
+					if (mod)
+						$("input[name='step']").val(2);
+
+					$("form[name='news_form']").submit();
+				}
+				else
+					alert('Пожалуйста, загрузите изображение');
+			{else}
+				$("form[name='news_form']").submit();
+			{/if}
+		}
+
+		$(window).on('load', function(){
+			$("[class*='imgareaselect'").remove();
+
+			$('#file_upload').ajaxForm({
+				beforeSubmit: function(a,f,o) {
+					o.dataType = 'json';
+					$("#preview_for_script").remove();
+					$("#img_loader").show();
+				},
+				success: function(data) {
+					$("#img_loader").hide();
+					if (data.error)
+					{
+						$("#img_preview").html("Error");
+						return;
+					}
+
+					html = "<img id='preview_for_script' src='/uploads/news/temp/"+data.filename+'.'+data.img_type+"?"+Math.floor(Math.random()*11)+"'>";
+					$("#img_preview").html(html);
+					$("#file_name").val(data.filename+'.'+data.img_type);
+
+					$('img#preview_for_script').imgAreaSelect({
+						handles: true,
+						aspectRatio: "{$config.cover_width}:{$config.cover_height}",
+						onSelectEnd: function (img, selection) {
+							$("input[name='x1']").val(selection.x1);
+							$("input[name='y1']").val(selection.y1);
+							$("input[name='x2']").val(selection.x2);
+							$("input[name='y1']").val(selection.y2);
+						}
+					});
+				}
+			});
+		});
+	{/if}
+</script>
+
+{function="init_editor()"}

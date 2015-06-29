@@ -1,0 +1,37 @@
+<div class="page-header">
+	{if="$cat_id != 0"}
+		<h1>Список страниц</h1>
+	{else}
+		<h1>Корзина</h1>
+	{/if}
+</div>
+
+<div class="page-header-menu">
+	<a href="/admin/{$component_name}/edit/?cat_id={$cat_id}" class="btn btn-flat btn-sm btn-labeled btn-success" id="add-project-button"><span class="btn-label icon fa fa-plus"></span>Добавить новую страницу</a>
+</div>
+
+<table class="table table-bordered table-primary">
+	<tr>
+		<th width='60'>#</th>
+		<th width='60'></th>
+		<th width='60'></th>
+		<th>Заголовок страницы</th>
+		<th>Псевдоним</th>
+		{if="$cat_id != 0"}<th>Категория</th>{/if}
+		<th width="110">&nbsp;</th>
+	</tr>
+	{loop name="pages"}
+	<tr class={if="$counter%2==0"}'graytr'{else}'lightgraytr'{/if}>
+		<td>{$value.id}</td>
+		<td><a href="/admin/{$component_name}/publish/?id={$value.id}" class="fa {function="get_publish_style($value.published)"}"></a></td>
+		<td><a class="fa fa-share-square-o" href='{$gDomain}/{$value.alias}.html' title='Посмотреть на сайте' target="_blank"></a></td>
+		<td><a href='/admin/{$component_name}/edit/?id={$value.id}'>{$value.title}</a></td>
+		<td>{$value.alias}</td>
+		{if="$cat_id != 0"}<td><a href="{$gDomain}/admin/{$component_name}/pages/?cat_id={$value.cat_id}">{$value.cat_title}</a></td>{/if}
+		<td>
+			<a class="fa fa-edit" href='/admin/{$component_name}/edit/?id={$value.id}' title='Редактировать'></a>
+			<a class="fa fa-remove" href='/admin/{$component_name}/delete/?id={$value.id}' title='Удалить'></a>
+		</td>
+	</tr>
+	{/loop}
+</table>

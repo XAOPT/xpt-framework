@@ -1,0 +1,29 @@
+<?php
+
+return array(
+	'add_user' => 'Добавить пользователя',
+	'user_list' => 'Список пользователей',
+	'login' => 'Логин',
+
+	// edit_user
+	'user_addition' => 'Добавление пользователя',
+	'password' => 'Пароль',
+	'new_password' => 'Новый пароль',
+	'user_group' => 'Группа пользователей',
+	'email' => 'E-mail',
+
+	// groups_list
+	'add_user_group' => 'Добавить группу',
+	'user_groups_list' => 'Список групп пользователей',
+
+	// edit_group
+	'user_group_edition' => 'Редактирование группы пользователей',
+	'components_access' => 'Доступ к компонентам',
+	'projects_access' => 'Доступ к проектам',
+	
+	//Menu
+	"Users"=>"Пользователи",
+	"List"=>"Список",
+	"Groups"=>"Группы",
+);
+?>

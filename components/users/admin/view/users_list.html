@@ -1,0 +1,33 @@
+<div class="page-header">
+	<h1>{:user_list}</h1>
+</div>
+
+<div class="page-header-menu">
+	<a href="{$gADomain}/{$component_name}/add/" class="btn btn-flat btn-sm btn-labeled btn-success" id="add-project-button"><span class="btn-label icon fa fa-plus"></span>{:add_user}</a>
+</div>
+
+<table class="table table-bordered table-primary">
+	<thead>
+	<tr>
+		<th>#</th>
+		<th>{:login}</th>
+		<th>{:realname}</th>
+		<th>{:group}</th>
+		<th width='110'>&nbsp;</th>
+	</tr>
+	</thead>
+	<tbody>
+	{loop name="users"}
+	<tr>
+		<td>{$value.userid}</td>
+		<td><a href='{$gADomain}/{$component_name}/edit/?id={$value.userid}' title='{:edit}'>{$value.email}</a></td>
+		<td>{$value.realname}</td>
+		<td>{$value.group}</td>
+		<td>
+			<a class="fa fa-edit" href='{$gADomain}/{$component_name}/edit/?id={$value.userid}' title='{:edit}'></a>
+			{if="guser::_hasAccess($component_name, 'delete')"}<a class="fa fa-remove" href='{$gADomain}/{$component_name}/delete/?id={$value.userid}' title='{:delete}'></a>{/if}
+		</td>
+	</tr>
+	{/loop}
+	</tbody>
+</table>

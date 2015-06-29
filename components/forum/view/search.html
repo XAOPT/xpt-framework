@@ -1,0 +1,113 @@
+<div id='forumdiv' class='nforum'>
+	<div class='forumSolidTable_container nforumSolidTable_container'>
+		<div class='nforum-head' style='text-align: right;'>
+			<a href="{$gDomain}/forum/" class='nforum-head-button-left'>На главную форума</a>
+		</div>
+		<div class='nforum-bigborder'>
+		<!-- <div class='nforum-pagination toppag'>{$pagination}</div> -->
+		<div class='nforum-bigborder' style='border-top: 0 none;'>
+			<table  cellpadding='0' cellspacing='0' border='0' width='100%' class='nforum_table_cat nforum_table_cat_noborder'>
+		<!-- <tr class='cols_description'>
+			<th style='text-align:left !important;'>Автор</th>
+			<th width='60' style='text-align:left !important;'>Текст сообщения</th>
+		</tr> -->
+		{$focus_mess = count($messages)-3}
+
+		{loop name="messages"}
+		{$author = $users[$value['userid']]}
+		<tr class='{if="guser::id() == $value.userid"}nforum-mytr{/if}'>
+			<td colspan='2' style='padding: 0;'>
+				<div class='nforum-userlogin'>
+					<div class='nforum-userlogin-left'><a href="{$gDomain}/profile/{$author['login']}/">{$author['login']}</a></div>
+					<div class='nforum-userlogin-right'>
+						{if="$focus_mess==$counter"}<a name="m{$topic.last_dtime}"></a>{/if}
+						<a href="{$gDomain}/forum/find_page/?m_id={$value.m_id}&t_id={$value.t_id}">#{$value.m_id}</a> &nbsp;&nbsp;&nbsp;{$value.ftime}
+						<div style='display: none;'>
+							<span class='qd'>{$value.dtime}</span>
+							<span class='ql'>{$author['login']}</span>
+							<span class='qm'>{$value.qmess}</span>
+						</div>
+					</div>
+						<div style='display: none;'>
+							<span class='qd'>{$value.dtime}</span>
+							<span class='ql'>{$author['login']}</span>
+							<span class='qm'>{$value.qmess}</span>
+						</div>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr class='{if="$counter%2==0"}whitetr{else}graytr{/if} {if="$gUserid == $value.userid"}nforum-mytr{/if} nforum-mytr2 nforum-massagetr'>
+			<td width='180' valign='top' class='forum-author'>
+				<div>
+					{if="$author['avatar'] and $author['email']"}
+					<a class='nforum-profile-link' href="{$gDomain}/profile/{$author['login']}/" title="Профиль {$author['login']}" rel='nofollow'><img src="{$gDomain}/uploads/avatar/full/{$author['avatar']}" alt="{$author['login']}" /></a>
+					{elseif="!$author['avatar']"}
+					<a class='nforum-profile-link' href="{$gDomain}/profile/{$author['login']}/" title="Профиль {$author['login']}" rel='nofollow'><img src="{$gDomain}/templates/default/images/avatar100.png" alt="{$author['login']}" /></a>
+					{else}
+					<a class='nforum-profile-link' href="{$gDomain}/profile/{$author['login']}/" title="Профиль {$author['login']}" rel='nofollow'><img width="100" src="{$author['avatar']}" alt="{$author['login']}" /></a>
+					{/if}
+				</div>
+
+				<noindex>
+					<div style='padding: 1px 0 0 2px;'>
+						{$kar = $author['karma']}
+						{$mes = $author['forum_mess']}
+						{$log = $author['login']}
+						<a rel='nofollow' href='{$gDomain}/{$component_name}/view/844/?p=1' class='forum-ustatus1 {if="$log == 'Maelstorm' || $log == 'maybehelpy'"}Roshan{else}{function="guser::_statusByMessages($author['forum_mess'])"}{/if}'>
+							{if="$log == 'Maelstorm'"}Virtus.Pro{elseif="$log == 'maybehelpy'"}МожетПоможет
+							{else}
+							{function="guser::_statusByKarma($author['karma'])"}
+							{function="guser::_statusByMessages($author['forum_mess'])"}
+							{/if}
+						</a>
+					</div>
+					{if="!empty($author['groups'])"}
+					<div style='padding: 3px 0 0 2px;'>
+						<div class='forum-ustatus2'>{function="guser::_groupText($author['groups'])"}</div>
+					</div>
+					{/if}
+					<div style='padding: 3px 0 0 2px; width: 100px; text-align: center;'>
+						<span class='karma-comment forumkarma' title='Карма пользователя'>{$author['karma']}</span><span class='forummess' title='Количество сообщений на форуме'>{$author['forum_mess']}</span>
+					</div>
+					{if="isset($author['warnings']) && $author['warnings'] > 0"}
+					<div style='padding: 1px 0 0 2px; width: 100px; text-align: center;'>
+						{if="guser::_hasAccess($component_name, 'warnings')"}
+						{function="str_repeat('<a href="'.$gDomain.'/'.$component_name.'/remove_warning/?userid='.$author['userid'].'&utime='.$author['utime'].'" title="'.$author['text'].'"><i class="icon-exclamation-sign icon-black"></i></a> ', $author['warnings'])"}
+						{else}
+						{function="str_repeat('<i class="icon-exclamation-sign icon-black" title="'.$author['text'].'"></i> ', $author['warnings'])"}
+						{/if}
+					</div>
+					{/if}
+					{if="isset($author['banned']) && $author['banned'] > 0"}
+					<div style='padding: 1px 0 0 2px; width: 100px; text-align: center;'>
+						{if="guser::_hasAccess($component_name, 'rembans')"}
+						<a href="{$gDomain}/{$component_name}/remove_ban/?user_id={$author['userid']}" title="Снять бан"><i class="icon-warning-sign icon-black"></i></a> 
+						{else}
+						<i class="icon-warning-sign icon-black" title="Забанен"></i>
+						{/if}
+					</div>
+					{/if}
+				</noindex>
+			</td>
+			<td valign='top' class='forum-message'>
+			<span class='message'>{$value.message}</span>
+				{if="!empty($value.editor)"}
+				<div class='message_editor'>
+					{loop="$value.editor"}
+					Сообщение отредактировал <a href="{$gDomain}/profile/{$value2[0]}/" rel="nofollow" target="_blank">{$value2[0]}</a> ({function="date('d.m.Y H:i', $value2[1])"})<br />
+					{/loop}
+				</div>
+				{/if}
+				{if="isset($author['subs']) && !empty($author['subs'])"}
+				<span class='foum_subs'><hr /><br clear='both'>{$author['subs']}</span>
+				{/if}				
+			</td>
+		</tr>
+		{/loop}
+	</table>
+</div>
+</div>
+</div>
+</div>
+

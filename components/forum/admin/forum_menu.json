@@ -1,0 +1,11 @@
+{
+	"icon":"fa-comments-o",
+	"title":"Форум",
+	"actions":[
+		{
+			"href": "/cats/",
+			"title": "Категории",
+			"access": []
+		}
+	]
+}

@@ -1,0 +1,20 @@
+<h1>Список фотографий</h1>
+
+<a class='absolutelink' id='absolutelink-add' href="{$gDomain}/admin/{$component_name}/batch/?id={$id}">Добавить ещё фотографии</a>
+
+<table>
+	<tr>
+		<th>#</th>
+		<th>Минипик</th>
+		<th>&nbsp;</th>
+	</tr>
+	{loop name="photos"}
+	<tr class={if="$counter%2==0"}'graytr'{else}'lightgraytr'{/if}>
+		<td>{$value.id}</td>
+		<td><a href="{$gDomain}/uploads/{$component_name}/full/{$value.id}/{$value.image}" target="_blank"><img src='{$gDomain}/uploads/{$component_name}/thumb/{$value.id}/{$value.image}'></a></td>
+		<td>
+			<a class='iconbutton delete' href='{$gDomain}/admin/{$component_name}/delete_photo/?image_id={$value.id}' title='Удалить'></a>
+		</td>
+	</tr>
+	{/loop}
+</table>

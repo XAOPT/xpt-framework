@@ -1,0 +1,27 @@
+﻿{if ($topics[0].cat_id)}
+<h4>{$alone_header}</h4>
+<a href='{$domain}/forum/newtopic/forum_id,{$topics[0].cat_id}'><img src='{$domain}/templates/images/new_topic.gif'></a><br clear='both'><br clear='both'>
+<div class='forumTable_container'>
+	<table cellpadding='0' cellspacing='1' border='0' width='100%' class='forumTable'>
+		<tr class='th'>
+			<th align='left'>Тема</th>
+			<th width='100'>Сообщений</th>
+			<th width='100'>Автор</th>
+			<th width='150'>Последнее</th>
+		</tr>
+		{section name=id loop=$topics start=0}
+			{if ($topics[id].subj)}
+				<tr class='forum_row'>
+					<td class='title_cell'><a href='/forum/viewtopic/topic_id,{$topics[id].topic_id}'>{$topics[id].subj}</a></td>
+					<td class='some_cell'>{$topics[id].messages}</td>
+					<td class='totalmess_cell'><b>{$topics[id].login}</b></td>
+					<td class='recent_cell'>{if ($topics[id].last_user)}от <b>{$topics[id].last_user}</b> <br />{$topics[id].last_date}{else}Нет сообщений{/if}</td>
+				</tr>		
+			{/if}
+		{/section}
+	</table>
+</div>
+
+{$bb_form}
+
+{/if}
