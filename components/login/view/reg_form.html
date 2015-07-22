@@ -1,76 +1,76 @@
-	<h1>Присоединяйтесь к сообществу - registration</h1>
-	<div id='reg-right'>
-		<span class='bold'>Причины, по которым стоит присоединиться к нам:</span>
-			<ul class='reg'>
-			</ul>
-	</div>
+<h1>Присоединяйтесь к сообществу - registration</h1>
+<div id='reg-right'>
+    <span class='bold'>Причины, по которым стоит присоединиться к нам:</span>
+        <ul class='reg'>
+        </ul>
+</div>
 
-    <div id='regblock'>
-		{if="isset($data.error)"}<b class='red'>{$data.error}</b>{/if}
-		<form action="{$gDomain}/reg/" method="post">
-			<input type='hidden' name='do' value='reg'>
-			<div id="save_msg"></div>
-			<div id="save_error_msg"></div>
-            <br>
-            <div>
-            	<div class='inputall'>
-                    <div class='inputdescr'>Login:</div>
-					<div class='inputdiv'>
-						<div><input type="text" maxlength="20" id="new_username" name="new_username" value='{if="isset($data.username)"}{$data.username}{/if}'/></div>
-						<span>
-							Используйте буквы в диапазоне (a-z) и цифры (0-9).<br />
-							Разрешенные специальные символы "-_.".
-						</span>
-					</div>
+<div id='regblock'>
+    {if="isset($data.error)"}<b class='red'>{$data.error}</b>{/if}
+    <form action="{$gDomain}/reg/" method="post">
+        <input type='hidden' name='do' value='reg'>
+        <div id="save_msg"></div>
+        <div id="save_error_msg"></div>
+        <br>
+        <div>
+            <div class='inputall'>
+                <div class='inputdescr'>Login:</div>
+                <div class='inputdiv'>
+                    <div><input type="text" maxlength="20" id="new_username" name="new_username" value='{if="isset($data.username)"}{$data.username}{/if}'/></div>
+                    <span>
+                        Используйте буквы в диапазоне (a-z) и цифры (0-9).<br />
+                        Разрешенные специальные символы "-_.".
+                    </span>
                 </div>
-            	<div class='inputall'>
-                    <div class='inputdescr'>Password:</div>
-					<div class='inputdiv'>
-						<div><input type="password" id="new_user_password" name="new_uzxcpd" /></div>
-						<span>
-							Пароль должен содержать минимум 6 символов.
-						</span>
-					</div>
+            </div>
+            <div class='inputall'>
+                <div class='inputdescr'>Password:</div>
+                <div class='inputdiv'>
+                    <div><input type="password" id="new_user_password" name="new_uzxcpd" /></div>
+                    <span>
+                        Пароль должен содержать минимум 6 символов.
+                    </span>
                 </div>
-				<div class='inputall'>
-                    <div class='inputdescr'>Repeat password:</div>
-					<div class='inputdiv'>
-						<div><input type="password" id="new_user_password2" name="new_uzxcpd2"></div>
-						<span>
-							Повторите введённый ранее пароль.
-						</span>
-					</div>
+            </div>
+            <div class='inputall'>
+                <div class='inputdescr'>Repeat password:</div>
+                <div class='inputdiv'>
+                    <div><input type="password" id="new_user_password2" name="new_uzxcpd2"></div>
+                    <span>
+                        Повторите введённый ранее пароль.
+                    </span>
                 </div>
-				<div class='inputall'>
-                    <div class='inputdescr'>E-mail:</div>
-					<div class='inputdiv'>
-						<div><input type="text" id="user_email" name="uem" value='{if="isset($data.email)"}{$data.email}{/if}'></div>
-						<span>
-							Необходим для восстановления пароля.
-						</span>
-					</div>
+            </div>
+            <div class='inputall'>
+                <div class='inputdescr'>E-mail:</div>
+                <div class='inputdiv'>
+                    <div><input type="text" id="user_email" name="uem" value='{if="isset($data.email)"}{$data.email}{/if}'></div>
+                    <span>
+                        Необходим для восстановления пароля.
+                    </span>
                 </div>
-				<div class='inputall'>
-                    <div class='inputdescr'></div>
-					<div class='inputdiv'>
-						<div><img alt='' src="{$gDomain}/lib/captcha/captcha.php" /></div>
-					</div>
+            </div>
+            <div class='inputall'>
+                <div class='inputdescr'></div>
+                <div class='inputdiv'>
+                    <div><img alt='' src="{$gDomain}/lib/captcha/captcha.php" /></div>
                 </div>
-				<div></div>
- 				<div class='inputall'>
-                    <div class='inputdescr'>Captcha code:</div>
-					<div class='inputdiv'>
-						<div><input type="text" id="captcha" name="captcha" /></div>
-					</div>
+            </div>
+            <div></div>
+                <div class='inputall'>
+                <div class='inputdescr'>Captcha code:</div>
+                <div class='inputdiv'>
+                    <div><input type="text" id="captcha" name="captcha" /></div>
                 </div>
-				<div class='inputall'>
-                    <div class='inputdescr'></div>
-					<div class='inputdiv'>
-						<div><input type="submit" name="signup" value="Зарегистрироваться! Join now!" /></div>
-					</div>
+            </div>
+            <div class='inputall'>
+                <div class='inputdescr'></div>
+                <div class='inputdiv'>
+                    <div><input type="submit" name="signup" value="Зарегистрироваться! Join now!" /></div>
                 </div>
-			</div>
+            </div>
+        </div>
 
-		</form>
-	</div>
-	<div class="clear-both"></div>
+    </form>
+</div>
+<div class="clear-both"></div>

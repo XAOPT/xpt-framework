@@ -1,18 +1,18 @@
 <h1>Восстановление пароля</h1>
 
 {if="$events"}
-	{loop="$events"}
-	<span class='bold red'>{$value}</span><br /><br />
-	{/loop}
+    {loop="$events"}
+    <span class='bold red'>{$value}</span><br /><br />
+    {/loop}
 {/if}
 <form action="{$gDomain}/{$component_name}/sendmail/" method="post">
-	<div id="rememberpass" class='inputall'>
-        <div class='inputdescr'>Введите e-mail:</div> 
-			<div class='inputdiv'>
-				<div><input type="text" name="email" /></div>
-			</div>
-		<div class='inputdiv'>
-			<div><input type="submit" value="Восстановить!" style='margin-top: 2px !important;'/></div>
-		</div>
+    <div id="rememberpass" class='inputall'>
+        <div class='inputdescr'>Введите e-mail:</div>
+            <div class='inputdiv'>
+                <div><input type="text" name="email" /></div>
+            </div>
+        <div class='inputdiv'>
+            <div><input type="submit" value="Восстановить!" style='margin-top: 2px !important;'/></div>
+        </div>
      </div>
-</form>			
+</form>
