@@ -5,9 +5,10 @@ $debug_info = '';
 class ClassDatabase
 {
     public $db_connect_id;
-    var $query_result;
-    var $row = array();
-    var $rowset = array();
+    public $query;
+    public $query_result;
+    public $row    = array();
+    public $rowset = array();
     public $debug_mode = true;
     public $debug_total_time = 0;
 
@@ -57,6 +58,8 @@ class ClassDatabase
             $query = preg_replace('/\#\#/', DB_PREFIX, $query);
         else
             $query = preg_replace('/\#\#/', '', $query);
+
+        $this->query = $query;
 
         if ($this->debug_mode)
         {

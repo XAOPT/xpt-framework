@@ -7,7 +7,7 @@ class ClassSession {
 
     function __construct()
     {
-        global $sql, $gUser, $gUserid, $gAlogin;
+        global $sql, $gUser, $gUserid;
 
         $username = zReq::GetVar('login', 'SQL');
         $password = zReq::GetVar('pwd', 'SQL');
@@ -118,10 +118,8 @@ class ClassSession {
         $row = $sql->LoadRow();
         if ($row['id'] != $sessid)               return false; //Уже существует активная сессия для данного пользователя?
 
-
         if ($row['browser'] != $browser)               return false; //Попытка использования сессии из другого браузера
         if ($row['lastupd'] < ($last_update-(60*60*24*100))) return false; //Сессия уже закончилась? (120 мин)
-
         $sql->SetQuery("UPDATE `##session` SET `lastupd`='".time()."' WHERE `userid`='$userid'");
 
         return $row['userid'];

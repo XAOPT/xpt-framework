@@ -1,9 +1,9 @@
 <?php
 $msc = microtime();
 
-if (preg_match('/bla-bla\.com/', $_SERVER['HTTP_HOST']))
+if ($_SERVER['APPLICATION_ENV'] == "test")
     require_once("./include/inc_config_test.php");
-else if (preg_match('/bla-bla2/', $_SERVER['HTTP_HOST']) || preg_match('/bla-bla3/', $_SERVER['HTTP_HOST'])) {
+else if ($_SERVER['APPLICATION_ENV'] == "production" || !isset($_SERVER['APPLICATION_ENV']) || empty($_SERVER['APPLICATION_ENV'])) {
     require_once("./include/inc_config_production.php");
 }
 else
@@ -18,6 +18,7 @@ $rewrite  = new ZokerRewrite();
 
 if ($rewrite->component == 'logout') /* Пользователь пытается выйти из панели управления */
 {
+    /// TODO: вынести код в сессии
     global $gUserid, $sql;
 
     $sql->setQuery("DELETE FROM `##session` WHERE `userid`='{$gUserid}'");
@@ -29,13 +30,6 @@ if ($rewrite->component == 'logout') /* Пользователь пытаетс�
 }
 
 global $gUser;
-
-if (empty($gUser)) /* если пользователь не определён - выводит форму авторизации  */
-{
-    $tpl = new RainTPL('', 'core');
-    $tpl->draw( "auth_form", false );
-    exit;
-}
 
 class ClassIndex
 {
@@ -52,10 +46,6 @@ class ClassIndex
             exit;
         }
 
-        ClassPage::SetTitle('');
-        ClassPage::SetKeywords('');
-        ClassPage::SetDescription('');
-
         $this->tpl = new RainTPL('', 'core');
 
         if ($rewrite->module)
@@ -63,7 +53,7 @@ class ClassIndex
             $this->tpl->assign( "component", master_module($rewrite->module) );
         }
         else if (!$rewrite->component) {
-            $rewrite->component = "stat";
+            $rewrite->component = "static";
         }
 
         if ($rewrite->component)
